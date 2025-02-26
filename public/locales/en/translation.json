@@ -1,0 +1,19 @@
+{
+  "appName": "Chytailyk",
+  "auth": {
+    "register": "Register",
+    "login": "Log in",
+    "messages": {
+      "navigateToRegister": "Don't have an account?",
+      "navigateToLogin": "Already have an account?"
+    },
+    "formData": {
+      "email": "Email",
+      "password": "Password",
+      "username": "Username",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "confirmPassword": "Confirm Password"
+    }
+  }
+}

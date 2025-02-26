@@ -1,0 +1,19 @@
+{
+  "appName": "Читайлик",
+  "auth": {
+    "register": "Зареєструватися",
+    "login": "Увійти",
+    "messages": {
+      "navigateToRegister": "Ще не зареєструвалися?",
+      "navigateToLogin": "Вже зареєстровані?"
+    },
+    "formData": {
+      "email": "Пошта",
+      "password": "Пароль",
+      "username": "Ім'я користувача",
+      "firstName": "Ім'я",
+      "lastName": "Прізвище",
+      "confirmPassword": "Підтвердьте пароль"
+    }
+  }
+}

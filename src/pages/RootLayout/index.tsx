@@ -22,7 +22,6 @@ const RootLayout: React.FC = () => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <Menu
-          theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={[
