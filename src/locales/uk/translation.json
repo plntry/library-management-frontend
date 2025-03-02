@@ -1,0 +1,35 @@
+{
+  "appName": "Читайлик",
+  "auth": {
+    "register": "Зареєструватися",
+    "login": "Увійти",
+    "messages": {
+      "navigateToRegister": "Не маєте акаунта?",
+      "navigateToLogin": "Вже зареєстровані?",
+      "validation": {
+        "required": "{{field}} є обов'язковим полем",
+        "format": {
+          "email": "Неправильний формат пошти"
+        },
+        "confirmPassword": "Паролі не співпадають"
+      }
+    },
+    "formData": {
+      "email": "Пошта",
+      "password": "Пароль",
+      "username": "Ім'я користувача",
+      "firstName": "Ім'я",
+      "lastName": "Прізвище",
+      "confirmPassword": "Підтвердження пароля"
+    }
+  },
+  "errorPage": {
+    "title": "Щось пішло не так...",
+    "description": "Вибачте, ми не можемо знайти цю сторінку. Можливо, ви знайдете щось цікаве на головній сторінці?",
+    "navigationText": "Головна сторінка"
+  },
+  "header": {
+    "allBooks": "Усі Книги",
+    "logout": "Вийти"
+  }
+}

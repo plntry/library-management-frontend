@@ -1,3 +1,5 @@
+import { RegisterOptions } from "react-hook-form";
+
 export type AuthRequestType = "register" | "login";
 
 export interface RegisterFormData {
@@ -12,6 +14,12 @@ export interface RegisterFormData {
 export interface LoginFormData {
   email: string;
   password: string;
+}
+
+export interface AuthInputData
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: keyof LoginFormData | keyof RegisterFormData;
+  validation?: RegisterOptions<LoginFormData | RegisterFormData>;
 }
 
 export interface AuthResponse {
