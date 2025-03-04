@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../routes/paths";
 
 export function action() {
   localStorage.removeItem("token");

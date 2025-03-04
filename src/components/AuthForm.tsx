@@ -24,7 +24,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
     watch,
     reset,
     formState: { errors },
-  } = useForm<RegisterFormData | LoginFormData>();
+  } = useForm<RegisterFormData | LoginFormData>({ mode: "onChange" });
 
   const formInputs: AuthInputData[] =
     mode === "login"
@@ -55,11 +55,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         ]
       : [
           {
-            id: "username",
-            placeholder: t("auth.formData.username"),
+            id: "last_name",
+            placeholder: t("auth.formData.lastName"),
             validation: {
               required: t("auth.messages.validation.required", {
-                field: t("auth.formData.username"),
+                field: t("auth.formData.lastName"),
+              }),
+            },
+          },
+          {
+            id: "first_name",
+            placeholder: t("auth.formData.firstName"),
+            validation: {
+              required: t("auth.messages.validation.required", {
+                field: t("auth.formData.firstName"),
               }),
             },
           },
@@ -77,14 +86,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
             },
           },
           {
-            id: "first_name",
-            placeholder: t("auth.formData.firstName"),
-          },
-          {
-            id: "last_name",
-            placeholder: t("auth.formData.lastName"),
-          },
-          {
             id: "password",
             type: "password",
             placeholder: t("auth.formData.password"),
@@ -92,6 +93,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
               required: t("auth.messages.validation.required", {
                 field: t("auth.formData.password"),
               }),
+              minLength: {
+                value: 5,
+                message: t("auth.messages.validation.length.password"),
+              },
             },
           },
           {
