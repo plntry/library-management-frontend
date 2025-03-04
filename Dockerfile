@@ -1,50 +1,32 @@
+# Step 1: Use Node.js official image
 FROM node:18-alpine AS builder
 
-
-# Set up the working directory
+# Step 2: Set the working directory
 WORKDIR /app
 
+# Step 3: Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Copy package.json та package-lock.json
-COPY package.json package-lock.json ./
-
-
-# Setting up dependencies
+# Step 4: Install dependencies
 RUN npm install
 
-
-# Copy all the code into the container
+# Step 5: Copy the rest of your app's code
 COPY . .
 
-
-# Assembling the project
+# Step 6: Build the app for production
 RUN npm run build
 
-
-# ---------------------------------------
-# The final container
+# Step 7: Use a lightweight web server to serve the app
 FROM nginx:alpine
 
+# Step 8: Copy custom NGINX configuration
+COPY /nginx.conf /etc/nginx/nginx.conf
 
-# Set up the working directory
-WORKDIR /usr/share/nginx/html
+# Step 9: Copy the build output to the NGINX HTML directory
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-
-# Delete default Nginx files
-RUN rm -rf ./*
-
-
-# Copy the collected React files to the container
-COPY --from=builder /app/dist .
-
-
-# Copy the custom Nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-
-# Open port 80
+# Step 10: Expose port 80
 EXPOSE 80
 
-
-# Starting Nginx
+# Step 11: Start NGINX server
 CMD ["nginx", "-g", "daemon off;"]
