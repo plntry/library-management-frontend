@@ -13,7 +13,7 @@ export async function checkAuthLoader() {
   const token = getAuthToken();
 
   if (!token) {
-    return redirect(PATHS.AUTH);
+    return redirect(PATHS.AUTH.link);
   }
 
   return null;

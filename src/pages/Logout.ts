@@ -4,5 +4,5 @@ import { PATHS } from "../routes/paths";
 export function action() {
   localStorage.removeItem("token");
   localStorage.removeItem("expiration");
-  return redirect(PATHS.AUTH);
+  return redirect(PATHS.AUTH.link);
 }

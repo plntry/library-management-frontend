@@ -167,7 +167,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         <p className="text-center text-sm text-gray-600">
           {navigateMessage}{" "}
           <Link
-            to={`${PATHS.AUTH}?mode=${modeToNavigate}`}
+            to={`${PATHS.AUTH.link}?mode=${modeToNavigate}`}
             className="text-primary-500 hover:text-primary-600"
           >
             {t(`auth.${modeToNavigate}`)}

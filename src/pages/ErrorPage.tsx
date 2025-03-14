@@ -19,7 +19,7 @@ const ErrorPage: React.FC = () => {
             {t("errorPage.description")}
           </p>
           <Link
-            to={PATHS.HOME}
+            to={PATHS.HOME.link}
             className="inline-flex text-white bg-primary-500 hover:bg-primary-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
           >
             {t("errorPage.navigationText")}

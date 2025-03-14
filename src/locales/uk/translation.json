@@ -26,13 +26,21 @@
       "confirmPassword": "Підтвердження пароля"
     }
   },
+  "header": {
+    "home": "Головна",
+    "allBooks": "Усі Книги",
+    "login": "Увійти",
+    "logout": "Вийти"
+  },
   "errorPage": {
     "title": "Щось пішло не так...",
     "description": "Вибачте, ми не можемо знайти цю сторінку. Можливо, ви знайдете щось цікаве на головній сторінці?",
     "navigationText": "Головна сторінка"
   },
-  "header": {
-    "allBooks": "Усі Книги",
-    "logout": "Вийти"
+  "allBooksPage": {
+    "title": "Що ти читатимеш сьогодні?"
+  },
+  "additionalButtons": {
+    "goBack": "Назад"
   }
 }
