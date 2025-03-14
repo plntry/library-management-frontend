@@ -10,7 +10,7 @@ const BooksLayout: React.FC = () => {
 
   return (
     <div className="h-full w-full flex flex-col gap-2">
-      {isBooksPage && <GoBackButton />}
+      {!isBooksPage && <GoBackButton />}
       <Outlet />
     </div>
   );

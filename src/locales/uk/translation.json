@@ -26,6 +26,14 @@
       "confirmPassword": "Підтвердження пароля"
     }
   },
+  "book": {
+    "title": "Назва",
+    "description": "Опис",
+    "author": "Автор",
+    "genre": "Жанр",
+    "reserved": "Зарезервовано",
+    "available": "У наявності"
+  },
   "header": {
     "home": "Головна",
     "allBooks": "Усі Книги",
@@ -38,7 +46,11 @@
     "navigationText": "Головна сторінка"
   },
   "allBooksPage": {
-    "title": "Що ти читатимеш сьогодні?"
+    "title": "Що ти читатимеш сьогодні?",
+    "searchPlaceholder": "Пошук книг...",
+    "noBooksMessage": "За вашим запитом не знайдено жодної книги",
+    "moreButton": "Більше...",
+    "editButton": "Редагувати"
   },
   "additionalButtons": {
     "goBack": "Назад"

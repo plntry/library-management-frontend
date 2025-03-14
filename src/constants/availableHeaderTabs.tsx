@@ -27,13 +27,13 @@ export const headerTabs: MenuItem[] = [
   {
     key: PATHS.LOGOUT.link,
     label: i18next.t("header.logout"),
-    icon: <LogOutIcon className="w-5 h-5 text-primary-700" />,
+    icon: <LogOutIcon className="w-5 h-5 text-primary-500" />,
     pushToTheEnd: true,
   },
   {
     key: PATHS.AUTH.link,
     label: i18next.t("header.login"),
-    icon: <LogInIcon className="w-5 h-5 text-primary-700" />,
+    icon: <LogInIcon className="w-5 h-5 text-primary-500" />,
     pushToTheEnd: true,
   },
 ];
