@@ -1,11 +1,12 @@
 export enum UserRoles {
-  READER = "student",
+  READER = "user",
   LIBRARIAN = "librarian",
   ADMIN = "admin",
 }
 
 export interface UserRegistration {
   email: string;
+  username: string;
   password: string;
   first_name: string;
   last_name: string;
@@ -19,6 +20,7 @@ export interface UserLogin {
 
 export interface AuthUser {
   id: number;
-  email: string;
+  sub: string; // email
+  exp: number;
   role: UserRoles;
 }

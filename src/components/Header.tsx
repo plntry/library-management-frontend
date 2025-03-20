@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   const submit = useSubmit();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const menuItems: MenuItem[] = availableHeaderTabs[UserRoles.LIBRARIAN]; // TODO: add role after login
+  const menuItems: MenuItem[] = availableHeaderTabs[UserRoles.READER]; // TODO: add role after login
   const selectedKey = location.pathname;
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);

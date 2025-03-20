@@ -27,15 +27,15 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <NotificationContext.Provider value={{ addNotification }}>
       {children}
-      <div className="fixed top-4 right-4 space-y-2 z-50">
+      <div className="fixed max-w-md top-4 right-4 space-y-2 z-50">
         {notifications.map((n) => (
           <div
             key={n.id}
-            className={`bg-white p-4 rounded shadow-lg animate-fadeIn ${
-              notificationStyles[n.type]
-            }`}
+            className="bg-white p-4 rounded shadow-lg animate-fadeIn "
           >
-            <div className="font-bold">{n.message}</div>
+            <div className={`font-bold ${notificationStyles[n.type]}`}>
+              {n.message}
+            </div>
             {n.description && (
               <div className="text-sm mt-1">{n.description}</div>
             )}

@@ -1,8 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { Book } from "../models/Book";
+import { Book, BookPage } from "../models/Book";
+import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
+import { UserRoles } from "../models/User";
+import BookActionsComp from "./BookActions";
 
 const BookItem: React.FC<{ book: Book }> = ({ book }) => {
   const { t } = useTranslation();
+  const availableActions =
+    userAvailableBookActionsByPage[BookPage.AllBooks][UserRoles.LIBRARIAN]; // TODO: update with correct role when the api is done
 
   return (
     <div key={book.id} className="card">
@@ -20,20 +25,7 @@ const BookItem: React.FC<{ book: Book }> = ({ book }) => {
       <p className="card__author">
         <span className="card__author-name">Author:</span> {book.author}
       </p>
-      <div className="card__footer">
-        <button
-          // onClick={() => handleMore(book)}
-          className="button button--secondary"
-        >
-          {t("allBooksPage.moreButton")}
-        </button>
-        <button
-          // onClick={() => handleEdit(book)}
-          className="button"
-        >
-          {t("allBooksPage.editButton")}
-        </button>
-      </div>
+      <BookActionsComp book={book} actions={availableActions} />
     </div>
   );
 };

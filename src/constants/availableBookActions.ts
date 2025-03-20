@@ -1,68 +1,90 @@
-import { BookActions, UserAvailableBookActions } from "../models/Book";
+import i18next from "i18next";
+import {
+  BookActions,
+  BookPage,
+  UserAvailableBookActions,
+  UserAvailableBookActionsByPage,
+} from "../models/Book";
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
 import { getUserAvailableBookActionsByPage } from "../utils/bookUtils";
 
 export const bookActions: BookActions = {
   more: {
-    title: "More...",
+    title: i18next.t("allBooksPage.moreButton"),
     link: PATHS.BOOK.link,
     dynamicParam: {
       stringToReplace: ":bookId",
       propName: "id",
     },
-    visible: {
-      booksPage: true,
-      detailsPage: false,
+    onClick: function (
+      dataToReplace?: string,
+      navigate?: (to: string) => void
+    ): void {
+      if (!dataToReplace || !navigate) return;
+
+      const dynamicLink = this.dynamicParam
+        ? this.link.replace(this.dynamicParam.stringToReplace, dataToReplace)
+        : this.link;
+
+      navigate(dynamicLink);
     },
+    visible: {
+      [BookPage.AllBooks]: true,
+      [BookPage.MyBooks]: true,
+      [BookPage.BookDetails]: false,
+    },
+    classes: "button button--secondary",
   },
-  enroll: {
-    title: "Enroll",
+  reserve: {
+    title: i18next.t("allBooksPage.reserveButton"),
     link: "",
     visible: {
-      booksPage: true,
-      detailsPage: true,
+      [BookPage.AllBooks]: true,
+      [BookPage.MyBooks]: false,
+      [BookPage.BookDetails]: true,
     },
+    disabledIf: "is_reserved",
+    classes: "button button--primary",
   },
   edit: {
-    title: "Edit",
+    title: i18next.t("allBooksPage.editButton"),
     link: `${PATHS.BOOK.link}/${PATHS.EDIT_BOOK.link}`,
     dynamicParam: {
       stringToReplace: ":bookId",
       propName: "id",
     },
+    onClick: function (
+      dataToReplace?: string,
+      navigate?: (to: string) => void
+    ): void {
+      if (!dataToReplace || !navigate) return;
+
+      const dynamicLink = this.dynamicParam
+        ? this.link.replace(this.dynamicParam.stringToReplace, dataToReplace)
+        : this.link;
+
+      navigate(dynamicLink);
+    },
     visible: {
-      booksPage: true,
-      detailsPage: true,
+      [BookPage.AllBooks]: true,
+      [BookPage.MyBooks]: false,
+      [BookPage.BookDetails]: true,
     },
-    requiresOwnership: true,
-  },
-  delete: {
-    title: "Delete",
-    link: "",
-    dynamicParam: {
-      stringToReplace: ":courseId",
-      propName: "id",
-    },
-    visible: {
-      booksPage: true,
-      detailsPage: true,
-    },
-    requiresOwnership: true,
+    classes: "button",
   },
 };
 
 export const userAvailableBookActions: UserAvailableBookActions = {
-  [UserRoles.READER]: [bookActions.enroll, bookActions.more],
-  [UserRoles.LIBRARIAN]: [
-    bookActions.edit,
-    bookActions.delete,
-    bookActions.more,
-  ],
+  [UserRoles.READER]: [bookActions.reserve, bookActions.more],
+  [UserRoles.LIBRARIAN]: [bookActions.edit, bookActions.more],
 };
 
 // each page should include only actions which should be visible on that page
-export const userAvailableBookActionsBooksPage: UserAvailableBookActions =
-  getUserAvailableBookActionsByPage("booksPage");
-export const userAvailableBookActionsDetailsPage: UserAvailableBookActions =
-  getUserAvailableBookActionsByPage("detailsPage");
+export const userAvailableBookActionsByPage: UserAvailableBookActionsByPage =
+  Object.fromEntries(
+    Object.values(BookPage).map((page) => [
+      page,
+      getUserAvailableBookActionsByPage(page as BookPage),
+    ])
+  ) as UserAvailableBookActionsByPage;

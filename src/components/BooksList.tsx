@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { Book, BookActionConfig } from "../models/Book";
+import { Book } from "../models/Book";
 import { useTranslation } from "react-i18next";
 import BookItem from "./BookItem";
-import { userAvailableBookActionsBooksPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
+import { Link } from "react-router";
+import { PATHS } from "../routes/paths";
 
 interface BooksListProps {
   data: Book[];
@@ -12,9 +13,7 @@ interface BooksListProps {
 const BooksList: React.FC<BooksListProps> = ({ data }) => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
-  const availableActions: BookActionConfig[] =
-    userAvailableBookActionsBooksPage[UserRoles.LIBRARIAN];
-  console.log({ availableActions });
+  const role = UserRoles.LIBRARIAN; // TODO: add role after login
 
   const filteredBooks = useMemo(() => {
     const lowerQuery = searchQuery.toLowerCase();
@@ -28,18 +27,10 @@ const BooksList: React.FC<BooksListProps> = ({ data }) => {
     });
   }, [data, searchQuery]);
 
-  // const handleMore = (book: Book) => {
-  //   console.log("More details for:", book);
-  // };
-
-  // const handleEdit = (book: Book) => {
-  //   console.log("Edit book:", book);
-  // };
-
   return (
     <div className="p-4 flex flex-col gap-5">
       <div className="self-center page-title">{t("allBooksPage.title")}</div>
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
         <input
           type="text"
           placeholder={t("allBooksPage.searchPlaceholder")}
@@ -47,6 +38,13 @@ const BooksList: React.FC<BooksListProps> = ({ data }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search"
         />
+        {role === UserRoles.LIBRARIAN && (
+          <Link to={PATHS.NEW_BOOK.link} className="block w-full md:w-auto">
+            <button className="button button--primary w-full">
+              {t("additionalButtons.addNewBook")}
+            </button>
+          </Link>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredBooks.map((book) => (

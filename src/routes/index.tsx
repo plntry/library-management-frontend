@@ -9,19 +9,24 @@ import BooksLayout from "../pages/BooksLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AllBooks from "../pages/AllBooks";
 import { loader as allBooksLoader } from "../loaders/allBooksLoader";
+import { loader as bookDetailsLoader } from "../loaders/bookDetailsLoader";
+import BookDetails from "../pages/BookDetails";
+import { rootLoader } from "../utils/authUtils";
+import { action as logoutAction } from "../pages/Logout";
+import NewBookPage from "../pages/NewBookPage";
+import EditBookPage from "../pages/EditBookPage";
 
 export const routes = [
   {
     id: "root",
     path: PATHS.HOME.link,
     element: <RootLayout />,
-    // loader: tokenLoader,
+    loader: rootLoader,
     HydrateFallback: Loader,
     children: [
       {
         index: true,
         element: <Home />,
-        // loader: checkAuthLoader,
       },
       {
         id: "booksRoot",
@@ -35,17 +40,54 @@ export const routes = [
                 <AllBooks />
               </ProtectedRoute>
             ),
-            loader: allBooksLoader
+            loader: allBooksLoader,
           },
           {
             path: PATHS.RESERVED_BOOKS.link,
             // element: (
             //   <ProtectedRoute allowedRoles={[...PATHS.RESERVED_BOOKS.roles]}>
-            //     <ReservedBooks />
+            //     <MyBooks />
             //   </ProtectedRoute>
             // ),
           },
-        ]
+          {
+            id: "bookDetails",
+            path: PATHS.BOOK.link,
+            loader: bookDetailsLoader,
+            children: [
+              {
+                index: true,
+                element: (
+                  <ProtectedRoute allowedRoles={[...PATHS.BOOK.roles]}>
+                    <BookDetails />
+                  </ProtectedRoute>
+                ),
+              },
+              {
+                path: PATHS.EDIT_BOOK.link,
+                element: (
+                  <ProtectedRoute allowedRoles={[...PATHS.EDIT_BOOK.roles]}>
+                    <EditBookPage />
+                  </ProtectedRoute>
+                ),
+              },
+            ],
+          },
+          {
+            path: PATHS.NEW_BOOK.link,
+            element: (
+              <ProtectedRoute allowedRoles={[...PATHS.NEW_BOOK.roles]}>
+                <NewBookPage />
+              </ProtectedRoute>
+            ),
+          },
+        ],
+      },
+      {
+        path: PATHS.LOGOUT.link,
+        element: <ProtectedRoute allowedRoles={[...PATHS.LOGOUT.roles]} />,
+        children: [{ index: true }],
+        action: logoutAction,
       },
       {
         path: PATHS.NOT_FOUND.link,
