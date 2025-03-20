@@ -27,27 +27,8 @@ export const getRequestBody = {
   },
 };
 
-export function getAuthToken() {
-  return null; // TODO: add loader when the api is ready
-}
-
-export function tokenLoader() {
-  return getAuthToken();
-}
-
-export async function checkAuthLoader() {
-  const token = getAuthToken();
-
-  if (!token) {
-    return redirect(PATHS.AUTH.link);
-  }
-
-  return null;
-}
-
 export const rootLoader: LoaderFunction = async () => {
   const { isAuthenticated, checkAuth } = useAuthStore.getState();
-  console.log("state", useAuthStore.getState());
 
   if (!isAuthenticated) {
     await checkAuth();

@@ -3,11 +3,12 @@ import { Book, BookPage } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
 import BookActionsComp from "./BookActions";
+import { useAuthStore } from "../store/useAuthStore";
 
-const BookItem: React.FC<{ book: Book }> = ({ book }) => {
+const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
   const { t } = useTranslation();
-  const availableActions =
-    userAvailableBookActionsByPage[BookPage.AllBooks][UserRoles.LIBRARIAN]; // TODO: update with correct role when the api is done
+  const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
+  const availableActions = userAvailableBookActionsByPage[mode][role];
 
   return (
     <div key={book.id} className="card">
@@ -23,7 +24,8 @@ const BookItem: React.FC<{ book: Book }> = ({ book }) => {
       </div>
       <p className="card__genre badge">{book.genre}</p>
       <p className="card__author">
-        <span className="card__author-name">Author:</span> {book.author}
+        <span className="card__author-name">{t("book.author")}:</span>{" "}
+        {book.author}
       </p>
       <BookActionsComp book={book} actions={availableActions} />
     </div>

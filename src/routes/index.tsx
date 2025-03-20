@@ -15,6 +15,8 @@ import { rootLoader } from "../utils/authUtils";
 import { action as logoutAction } from "../pages/Logout";
 import NewBookPage from "../pages/NewBookPage";
 import EditBookPage from "../pages/EditBookPage";
+import ReservedBooks from "../pages/ReservedBooks";
+import { loader as reservedBooksLoader } from "../loaders/reservedBooksLoader";
 
 export const routes = [
   {
@@ -44,11 +46,12 @@ export const routes = [
           },
           {
             path: PATHS.RESERVED_BOOKS.link,
-            // element: (
-            //   <ProtectedRoute allowedRoles={[...PATHS.RESERVED_BOOKS.roles]}>
-            //     <MyBooks />
-            //   </ProtectedRoute>
-            // ),
+            element: (
+              <ProtectedRoute allowedRoles={[...PATHS.RESERVED_BOOKS.roles]}>
+                <ReservedBooks />
+              </ProtectedRoute>
+            ),
+            loader: reservedBooksLoader,
           },
           {
             id: "bookDetails",
@@ -92,7 +95,6 @@ export const routes = [
       {
         path: PATHS.NOT_FOUND.link,
         element: <ErrorPage />,
-        // loader: checkAuthLoader,
       },
     ],
   },

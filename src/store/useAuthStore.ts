@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios, { AxiosResponse } from "axios";
 import { jwtDecode } from "jwt-decode";
-import { AuthUser } from "../models/User";
+import { AuthUser, UserRoles } from "../models/User";
 import { authApi } from "../api/auth";
 
 interface AuthState {
@@ -35,13 +35,17 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       loginAttempts: 0,
 
-      setUser: (user, accessToken, refreshToken) =>
+      setUser: (user, accessToken, refreshToken) => {
         set({
-          user,
+          // TODO: update with actual role when the API is done
+          user: user
+            ? ({ ...user, role: UserRoles.LIBRARIAN } as AuthUser)
+            : null, // user,
           accessToken: accessToken || null,
           refreshToken: refreshToken || null,
           isAuthenticated: !!user,
-        }),
+        });
+      },
 
       checkAuth: async () => {
         const { accessToken, refreshToken, setUser } = get();
@@ -121,8 +125,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "auth-storage", // key in localStorage
-      // Optionally, you can persist only some parts of the state:
+      name: "auth-storage",
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,

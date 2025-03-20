@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { APIError } from "../models/Auth";
 import i18next from "i18next";
 import { Notification } from "../contexts/NotificationContext";
+import { useAuthStore } from "../store/useAuthStore";
 export function getAxiosError(error: unknown) {
   if (axios.isAxiosError(error)) {
     return error;
@@ -20,7 +21,6 @@ export const handleAxiosRequest = async <T>(
 ): Promise<AxiosResponse<T> | void> => {
   try {
     const response: AxiosResponse = await requestFunction();
-    console.log({ response });
 
     if (response?.status && response.status >= 200 && response.status < 300) {
       notify(
@@ -36,23 +36,23 @@ export const handleAxiosRequest = async <T>(
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        console.log("401 error");
+        const { checkAuth } = useAuthStore.getState();
+        await checkAuth();
 
-        // if (user?.id) {
-        //   return await handleAxiosRequest(
-        //     requestFunction,
-        //     notification,
-        //     userMessageSuccess,
-        //     customConfig
-        //   );
-        // } else {
-        //   handleAxiosError(error);
-        // }
+        const { user } = useAuthStore.getState();
+
+        if (user?.id) {
+          return await handleAxiosRequest(
+            requestFunction,
+            notify,
+            successNotification
+          );
+        } else {
+          handleAxiosError(error, notify);
+        }
       } else {
         handleAxiosError(error, notify);
       }
-
-      console.log({ error });
     } else {
       console.error("Unexpected error:", error);
     }

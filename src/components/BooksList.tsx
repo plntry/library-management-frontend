@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from "react";
-import { Book } from "../models/Book";
+import { Book, BookPage } from "../models/Book";
 import { useTranslation } from "react-i18next";
 import BookItem from "./BookItem";
 import { UserRoles } from "../models/User";
 import { Link } from "react-router";
 import { PATHS } from "../routes/paths";
+import { useAuthStore } from "../store/useAuthStore";
 
-interface BooksListProps {
+const BooksList: React.FC<{
   data: Book[];
-}
-
-const BooksList: React.FC<BooksListProps> = ({ data }) => {
+  mode?: BookPage;
+}> = ({ data, mode = BookPage.AllBooks }) => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
-  const role = UserRoles.LIBRARIAN; // TODO: add role after login
+  const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
 
   const filteredBooks = useMemo(() => {
     const lowerQuery = searchQuery.toLowerCase();
@@ -48,7 +48,7 @@ const BooksList: React.FC<BooksListProps> = ({ data }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredBooks.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <BookItem key={book.id} book={book} mode={mode} />
         ))}
         {filteredBooks.length === 0 && (
           <p className="col-span-full text-center text-gray-500">

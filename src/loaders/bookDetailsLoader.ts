@@ -1,4 +1,5 @@
 import { Params } from "react-router";
+import { dummyBooks } from "../api/dummyBooks";
 
 export async function loader({ params }: { params: Params }) {
   // const response = await bookApi.getById(params.courseId || "");
@@ -9,13 +10,5 @@ export async function loader({ params }: { params: Params }) {
 
   // return null;
 
-  return {
-    id: 1,
-    title: "Chop Chop",
-    description: "Cooking the Food of Nigeria",
-    author: "Ozoz Sokoh",
-    publication_year: 2003,
-    genre: "Cooking",
-    is_reserved: true,
-  };
+  return dummyBooks.find((book) => book.id + "" === params.bookId);
 }

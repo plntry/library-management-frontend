@@ -7,10 +7,12 @@ import { PATHS } from "../routes/paths";
 import bookDetailsBg from "../assets/details-books-bg.jpg";
 import { useTranslation } from "react-i18next";
 import BookActionsComp from "../components/BookActions";
+import { useAuthStore } from "../store/useAuthStore";
 
 const BookDetails: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
   const book = useRouteLoaderData("bookDetails") as Book | undefined;
   if (!book) {
     navigate(PATHS.HOME.link);
@@ -18,7 +20,7 @@ const BookDetails: React.FC = () => {
   }
 
   const availableActions: BookActionConfig[] =
-    userAvailableBookActionsByPage[BookPage.BookDetails][UserRoles.LIBRARIAN];
+    userAvailableBookActionsByPage[BookPage.BookDetails][role];
 
   const bookDetails = [
     {
@@ -60,7 +62,10 @@ const BookDetails: React.FC = () => {
             const isReservedElement = el.label === t("book.reserved");
 
             return (
-              <div key={index}>
+              <div
+                key={index}
+                className="bg-primary-100 rounded-sm px-2 py-1 text-10"
+              >
                 <span className="font-semibold">{el.label}: </span>
                 <span
                   className={`font-semibold ${

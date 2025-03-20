@@ -7,6 +7,7 @@ import HeaderItem from "./HeaderItem";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { PATHS } from "../routes/paths";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -14,7 +15,8 @@ const Header: React.FC = () => {
   const submit = useSubmit();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const menuItems: MenuItem[] = availableHeaderTabs[UserRoles.READER]; // TODO: add role after login
+  const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
+  const menuItems: MenuItem[] = availableHeaderTabs[role];
   const selectedKey = location.pathname;
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -30,7 +32,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 flex items-center gap-5 w-full min-h-15 px-5 bg-base-bg shadow-xs z-50">
+      <header className="fixed top-0 left-0 right-0 flex items-center gap-5 w-full min-h-15 px-5 bg-white shadow-xs z-50">
         <Link to={PATHS.HOME.link}>
           <img src={logo} alt="Logo" className="max-w-10" />
         </Link>
@@ -55,7 +57,7 @@ const Header: React.FC = () => {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed top-[4rem] left-0 right-0 bg-base-bg shadow-xs z-40">
+        <div className="md:hidden fixed top-[4rem] left-0 right-0 bg-white shadow-xs z-40">
           <div className="flex flex-col items-center">
             {menuItems.map((item) => (
               <HeaderItem
