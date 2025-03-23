@@ -10,6 +10,14 @@ export const PATHS = {
   DELETE_BOOK: { link: "delete", roles: [UserRoles.LIBRARIAN] },
   NEW_BOOK: { link: "/books/new", roles: [UserRoles.LIBRARIAN] },
   AUTH: { link: "/auth", roles: [] },
+  REQUEST_PASSWORD_RESET: {
+    link: "/request-password-reset",
+    roles: [],
+  },
+  RESET_PASSWORD: {
+    link: "/reset-password/:token",
+    roles: [],
+  },
   LOGOUT: { link: "logout", roles: Object.values(UserRoles) },
   NOT_FOUND: { link: "*", roles: [] },
 } as const;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import {
   APIError,
@@ -18,6 +18,8 @@ import { useNotification } from "../hooks/useNotification";
 import { useAuthStore } from "../store/useAuthStore";
 import { jwtDecode } from "jwt-decode";
 
+const TIME_TO_PREVENT_LOGIN_MS = 10 * 60 * 1000;
+
 interface AuthFormProps {
   mode: AuthRequestType;
 }
@@ -33,9 +35,55 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
     reset,
     formState: { errors },
   } = useForm<RegisterFormData | LoginFormData>({ mode: "onChange" });
-  const { incrementLoginAttempts, resetLoginAttempts, setUser } =
+  const { loginAttempts, incrementLoginAttempts, resetLoginAttempts, setUser } =
     useAuthStore.getState();
-  // const failedLogin = mode === "login" && loginAttempts >= 5;
+  const failedLogin = mode === "login" && loginAttempts >= 5;
+  const [remainingTime, setRemainingTime] = useState<number>(0);
+
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+
+    if (failedLogin) {
+      const disabledUntilStr = localStorage.getItem("disabledUntil");
+      let disabledUntil: number;
+
+      if (!disabledUntilStr) {
+        disabledUntil = Date.now() + TIME_TO_PREVENT_LOGIN_MS;
+        localStorage.setItem("disabledUntil", disabledUntil.toString());
+      } else {
+        disabledUntil = Number(disabledUntilStr);
+      }
+
+      // calculate initial remaining time
+      const initialRemaining = Math.max(
+        0,
+        Math.floor((disabledUntil - Date.now()) / 1000)
+      );
+      setRemainingTime(initialRemaining);
+
+      intervalId = setInterval(() => {
+        const now = Date.now();
+        const diff = Math.max(0, Math.floor((disabledUntil - now) / 1000));
+        setRemainingTime(diff);
+
+        if (diff <= 0) {
+          clearInterval(intervalId!);
+          localStorage.removeItem("disabledUntil");
+          resetLoginAttempts();
+        }
+      }, 1000);
+    } else {
+      localStorage.removeItem("disabledUntil");
+      setRemainingTime(0);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [failedLogin, resetLoginAttempts]);
+
+  const minutes = Math.floor(remainingTime / 60);
+  const seconds = remainingTime % 60;
 
   const modeToNavigate: "login" | "register" =
     mode === "login" ? "register" : "login";
@@ -225,10 +273,36 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-primary-400 px-4 py-2 text-white cursor-pointer transition hover:bg-primary-500"
+            disabled={failedLogin}
+            className="w-full button button--primary"
           >
             {t(`auth.${mode}`)}
           </button>
+
+          {failedLogin && (
+            <div className="flex flex-col justify-center items-center text-sm">
+              <p className="text-center text-red-500">
+                {t("auth.messages.passwordReset.failedLogin")}
+              </p>
+              <p style={{ textAlign: "center" }}>
+                <span style={{ color: "black" }}>
+                  {t("auth.messages.passwordReset.please")}{" "}
+                </span>
+                <Link
+                  to={PATHS.REQUEST_PASSWORD_RESET.link}
+                  className="underline text-primary-500 hover:text-primary-600"
+                >
+                  {t("auth.messages.passwordReset.resetYourPassword")}
+                </Link>{" "}
+                <span style={{ color: "black" }}>
+                  {t("auth.messages.passwordReset.orTryToLoginIn")} {minutes}
+                  {t("auth.messages.passwordReset.minutes") + " "}
+                  {seconds < 10 ? `0${seconds}` : seconds}
+                  {t("auth.messages.passwordReset.seconds")}
+                </span>
+              </p>
+            </div>
+          )}
         </form>
 
         <p className="text-center text-sm text-gray-600">

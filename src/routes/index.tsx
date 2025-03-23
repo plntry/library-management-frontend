@@ -112,4 +112,12 @@ export const routes = [
     path: PATHS.AUTH.link,
     element: <AuthPage />,
   },
+  {
+    path: PATHS.REQUEST_PASSWORD_RESET.link,
+    // element: <ResetPasswordRequest />,
+  },
+  {
+    path: PATHS.RESET_PASSWORD.link,
+    // element: <ResetPassword />,
+  },
 ];
