@@ -3,7 +3,6 @@ import { RegisterOptions } from "react-hook-form";
 export type AuthRequestType = "register" | "login";
 
 export interface RegisterFormData {
-  username: string;
   email: string;
   first_name: string;
   last_name: string;
@@ -28,6 +27,6 @@ export interface AuthResponse {
   token_type: string;
 }
 
-export interface AuthError {
+export interface APIError {
   detail?: string | { msg: string }[];
 }
