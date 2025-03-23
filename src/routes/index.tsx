@@ -2,21 +2,22 @@ import { PATHS } from "./paths";
 import RootLayout from "../pages/RootLayout";
 import AuthPage from "../pages/AuthPage";
 import Loader from "../components/Loader";
-// import { checkAuthLoader, tokenLoader } from "../utils/authUtils";
 import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
 import BooksLayout from "../pages/BooksLayout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AllBooks from "../pages/AllBooks";
-import { loader as allBooksLoader } from "../loaders/allBooksLoader";
-import { loader as bookDetailsLoader } from "../loaders/bookDetailsLoader";
+import { allBooksLoader } from "../loaders/allBooksLoader";
+import { bookDetailsLoader } from "../loaders/bookDetailsLoader";
 import BookDetails from "../pages/BookDetails";
 import { rootLoader } from "../utils/authUtils";
 import { action as logoutAction } from "../pages/Logout";
 import NewBookPage from "../pages/NewBookPage";
 import EditBookPage from "../pages/EditBookPage";
 import ReservedBooks from "../pages/ReservedBooks";
-import { loader as reservedBooksLoader } from "../loaders/reservedBooksLoader";
+import { reservedBooksLoader } from "../loaders/reservedBooksLoader";
+import BooksToReview from "../pages/BooksToReview";
+import { booksToReviewLoader } from "../loaders/booksToReviewLoader";
 
 export const routes = [
   {
@@ -52,6 +53,15 @@ export const routes = [
               </ProtectedRoute>
             ),
             loader: reservedBooksLoader,
+          },
+          {
+            path: PATHS.BOOKS_TO_REVIEW.link,
+            element: (
+              <ProtectedRoute allowedRoles={[...PATHS.BOOKS_TO_REVIEW.roles]}>
+                <BooksToReview />
+              </ProtectedRoute>
+            ),
+            loader: booksToReviewLoader,
           },
           {
             id: "bookDetails",

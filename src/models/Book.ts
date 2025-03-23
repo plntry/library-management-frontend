@@ -13,6 +13,7 @@ export interface Book {
 export enum BookPage {
   AllBooks = "allBooks",
   MyBooks = "myBooks",
+  BooksToReview = "booksToReview",
   BookDetails = "bookDetails",
 }
 

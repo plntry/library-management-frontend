@@ -29,7 +29,7 @@ const BooksList: React.FC<{
 
   return (
     <div className="p-4 flex flex-col gap-5">
-      <div className="self-center page-title">{t("allBooksPage.title")}</div>
+      <div className="self-center page-title">{t(`${mode}Page.title`)}</div>
       <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
         <input
           type="text"
@@ -38,7 +38,7 @@ const BooksList: React.FC<{
           onChange={(e) => setSearchQuery(e.target.value)}
           className="search"
         />
-        {role === UserRoles.LIBRARIAN && (
+        {role === UserRoles.LIBRARIAN && mode === BookPage.AllBooks && (
           <Link to={PATHS.NEW_BOOK.link} className="block w-full md:w-auto">
             <button className="button button--primary w-full">
               {t("additionalButtons.addNewBook")}

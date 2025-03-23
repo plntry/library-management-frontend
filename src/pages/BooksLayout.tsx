@@ -6,7 +6,8 @@ const BooksLayout: React.FC = () => {
   const location = useLocation();
   const isBooksPage =
     location.pathname === PATHS.BOOKS.link ||
-    location.pathname === PATHS.RESERVED_BOOKS.link;
+    location.pathname === PATHS.RESERVED_BOOKS.link ||
+    location.pathname === PATHS.BOOKS_TO_REVIEW.link;
 
   return (
     <div className="h-full w-full flex flex-col gap-2">

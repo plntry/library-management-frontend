@@ -102,7 +102,7 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
         <div className="flex justify-center items-center gap-3">
           <img src={logo} alt="Logo" className="max-w-15 hidden sm:block" />
           <h1 className="text-center text-3xl font-semibold text-primary-500">
-            {t("additionalButtons.addNewBook")}
+            {t(`additionalButtons.${book ? "updateBook" : "addNewBook"}`)}
           </h1>
         </div>
 

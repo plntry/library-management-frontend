@@ -43,6 +43,7 @@
     "home": "Головна",
     "allBooks": "Усі Книги",
     "reservedBooks": "Мої Книги",
+    "booksToReview": "Запити",
     "login": "Увійти",
     "logout": "Вийти"
   },
@@ -59,13 +60,25 @@
     "editButton": "Редагувати",
     "reserveButton": "Забронювати"
   },
+  "myBooksPage": {
+    "title": "Мої книги"
+  },
+  "booksToReviewPage": {
+    "title": "Запити на бронювання"
+  },
+  "bookDetailsPage": {
+    "title": ""
+  },
   "additionalButtons": {
     "goBack": "Назад",
     "yes": "Так",
     "no": "Ні",
     "create": "Додати",
     "update": "Оновити",
-    "addNewBook": "Додати книгу"
+    "addNewBook": "Додати книгу",
+    "updateBook": "Редагувати книгу",
+    "approve": "Підтвердити",
+    "decline": "Відхилити"
   },
   "notifications": {
     "default": {

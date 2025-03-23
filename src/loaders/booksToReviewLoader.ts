@@ -1,6 +1,6 @@
 import { dummyBooks } from "../api/dummyBooks";
 
-export async function reservedBooksLoader() {
+export async function booksToReviewLoader() {
   // const response = await booksApi.getAll();
 
   // if (response.status === 200) {

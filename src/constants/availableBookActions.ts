@@ -32,6 +32,7 @@ export const bookActions: BookActions = {
     visible: {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: true,
+      [BookPage.BooksToReview]: false,
       [BookPage.BookDetails]: false,
     },
     classes: "button button--secondary",
@@ -42,6 +43,7 @@ export const bookActions: BookActions = {
     visible: {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
+      [BookPage.BooksToReview]: false,
       [BookPage.BookDetails]: true,
     },
     disabledIf: "is_reserved",
@@ -69,15 +71,43 @@ export const bookActions: BookActions = {
     visible: {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
+      [BookPage.BooksToReview]: false,
       [BookPage.BookDetails]: true,
     },
     classes: "button",
+  },
+  approveReservation: {
+    title: i18next.t("additionalButtons.approve"),
+    link: "",
+    visible: {
+      [BookPage.AllBooks]: false,
+      [BookPage.MyBooks]: false,
+      [BookPage.BooksToReview]: true,
+      [BookPage.BookDetails]: false,
+    },
+    classes: "button button--primary",
+  },
+  declineReservation: {
+    title: i18next.t("additionalButtons.decline"),
+    link: "",
+    visible: {
+      [BookPage.AllBooks]: false,
+      [BookPage.MyBooks]: false,
+      [BookPage.BooksToReview]: true,
+      [BookPage.BookDetails]: false,
+    },
+    classes: "button button--red",
   },
 };
 
 export const userAvailableBookActions: UserAvailableBookActions = {
   [UserRoles.READER]: [bookActions.reserve, bookActions.more],
-  [UserRoles.LIBRARIAN]: [bookActions.edit, bookActions.more],
+  [UserRoles.LIBRARIAN]: [
+    bookActions.edit,
+    bookActions.approveReservation,
+    bookActions.declineReservation,
+    bookActions.more,
+  ],
 };
 
 // each page should include only actions which should be visible on that page

@@ -1,7 +1,7 @@
 import { Params } from "react-router";
 import { dummyBooks } from "../api/dummyBooks";
 
-export async function loader({ params }: { params: Params }) {
+export async function bookDetailsLoader({ params }: { params: Params }) {
   // const response = await bookApi.getById(params.courseId || "");
 
   // if (response.status === 200) {
