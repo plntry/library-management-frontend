@@ -128,6 +128,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
               required: t("auth.messages.validation.required", {
                 field: t("auth.formData.lastName"),
               }),
+              validate: {
+                noSpaces: (value: string) =>
+                  !/\s/.test(value) ||
+                  t("auth.messages.validation.noSpaces", {
+                    field: t("auth.formData.lastName"),
+                  }),
+                onlyLettersAndHyphen: (value: string) =>
+                  /^[\p{L}-]+$/u.test(value) ||
+                  t("auth.messages.validation.lettersOnly", {
+                    field: t("auth.formData.lastName"),
+                  }),
+              },
             },
           },
           {
@@ -137,6 +149,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
               required: t("auth.messages.validation.required", {
                 field: t("auth.formData.firstName"),
               }),
+              validate: {
+                noSpaces: (value: string) =>
+                  !/\s/.test(value) ||
+                  t("auth.messages.validation.noSpaces", {
+                    field: t("auth.formData.firstName"),
+                  }),
+                onlyLettersAndHyphen: (value: string) =>
+                  /^[\p{L}-]+$/u.test(value) ||
+                  t("auth.messages.validation.lettersOnly", {
+                    field: t("auth.formData.firstName"),
+                  }),
+              },
             },
           },
           {
@@ -165,12 +189,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
                 message: t("auth.messages.validation.length.password"),
               },
               validate: {
+                noSpaces: (value: string) =>
+                  !/\s/.test(value) ||
+                  t("auth.messages.validation.noSpaces", {
+                    field: t("auth.formData.password"),
+                  }),
                 onlyLatin: (value: string) => {
-                  const nonLatin = /[^\d\s!@#$%^&*(),.?":{}|<>A-Za-z]/.test(
+                  const nonLatin = /[^\d!@#$%^&*(),.?":{}|<>A-Za-z]/.test(
                     value
                   );
                   return !nonLatin || t("auth.messages.validation.latinOnly");
                 },
+                hasLatin: (value: string) =>
+                  /[A-Za-z]/.test(value) ||
+                  t("auth.messages.validation.latinRequired"),
                 hasSpecial: (value: string) =>
                   /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
                   t("auth.messages.validation.specialRequired"),

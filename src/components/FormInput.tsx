@@ -23,7 +23,7 @@ const FormInput: React.FC<{
       ) : (
         <input {...inputProps} className={inputClasses} />
       )}
-      <div className="mt-1 mb-5 h-2">
+      <div className="mt-0 mb-4 min-h-2">
         {errorProp && (
           <p className="text-sm text-red-500">{errorProp.message}</p>
         )}

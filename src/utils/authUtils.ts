@@ -1,8 +1,8 @@
-import { LoaderFunction } from "react-router";
-// import { PATHS } from "../routes/paths";
+import { LoaderFunction, redirect } from "react-router";
+import { PATHS } from "../routes/paths";
 import { LoginFormData, RegisterFormData } from "../models/Auth";
 import { UserLogin, UserRegistration, UserRoles } from "../models/User";
-// import { useAuthStore } from "../store/useAuthStore";
+import { useAuthStore } from "../store/useAuthStore";
 
 export const getRequestBody = {
   register: (formData: RegisterFormData) => {
@@ -28,17 +28,17 @@ export const getRequestBody = {
 };
 
 export const rootLoader: LoaderFunction = async () => {
-  // const { isAuthenticated, checkAuth } = useAuthStore.getState();
+  const { isAuthenticated, checkAuth } = useAuthStore.getState();
 
-  // if (!isAuthenticated) {
-  //   await checkAuth();
-  // }
+  if (!isAuthenticated) {
+    await checkAuth();
+  }
 
-  // const { isAuthenticated: updatedIsAuthenticated } = useAuthStore.getState();
+  const { isAuthenticated: updatedIsAuthenticated } = useAuthStore.getState();
 
-  // if (!updatedIsAuthenticated) {
-  //   return redirect(PATHS.AUTH.link);
-  // }
+  if (!updatedIsAuthenticated) {
+    return redirect(PATHS.AUTH.link);
+  }
 
   return null;
 };
