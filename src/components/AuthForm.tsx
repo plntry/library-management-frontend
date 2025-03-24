@@ -38,6 +38,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   const { loginAttempts, incrementLoginAttempts, resetLoginAttempts, setUser } =
     useAuthStore.getState();
   const failedLogin = mode === "login" && loginAttempts >= 5;
+  // console.log({failedLogin});
+
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   useEffect(() => {
