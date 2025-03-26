@@ -86,7 +86,7 @@ jobs:
 
           aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$ECR_REGISTRY"
 
-          containers=("redis" "alembic" "postgre-exporter" "node-exporter" "promtail" "loki" "grafana" "prometheus")
+          containers=("redis" "alembic" "grafana")
           # Inspection of each container
           for container in "${containers[@]}"; do
             if [[ -z "$(docker ps --filter "name=$container" --format '{{.Names}}')" ]]; then
@@ -118,6 +118,7 @@ jobs:
             docker rm frontend
 
             echo "Starting new container..."
+            docker-compose build --no-cache
             docker-compose up -d --no-deps frontend
 
           else
