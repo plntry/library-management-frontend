@@ -46,7 +46,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.BookDetails]: true,
     },
-    disabledIf: "is_reserved",
+    disabledIf: "status",
     classes: "button button--primary",
   },
   edit: {
