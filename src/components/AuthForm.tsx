@@ -197,20 +197,22 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
                     field: t("auth.formData.password"),
                   }),
                 onlyLatin: (value: string) => {
-                  const nonLatin = /[^\d!@#$%^&*(),.?":{}|<>A-Za-z]/.test(
+                  const nonAllowed = /[^A-Za-z0-9!@#$%^&*(),.?":{}|<>]/.test(
                     value
                   );
-                  return !nonLatin || t("auth.messages.validation.latinOnly");
+                  console.log({ nonAllowed });
+
+                  return !nonAllowed || t("auth.messages.validation.latinOnly");
                 },
-                hasLatin: (value: string) =>
-                  /[A-Za-z]/.test(value) ||
-                  t("auth.messages.validation.latinRequired"),
                 hasSpecial: (value: string) =>
                   /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
                   t("auth.messages.validation.specialRequired"),
                 hasNumber: (value: string) =>
                   /\d/.test(value) ||
                   t("auth.messages.validation.numberRequired"),
+                hasLatin: (value: string) =>
+                  /[A-Za-z]/.test(value) ||
+                  t("auth.messages.validation.latinRequired"),
               },
             },
           },
