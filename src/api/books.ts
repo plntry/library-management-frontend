@@ -8,9 +8,9 @@ export const booksApi = {
   getById: async (bookId: string) =>
     await api.get(`${BOOKS_BASE_URL}/${bookId}`),
   create: async (body: Book) => await api.post(BOOKS_BASE_URL, body),
-  update: async (body: {
-    title: string;
-    description: string;
-    author: string; // TODO: update to Book when the api is done
-  }) => await api.put(BOOKS_BASE_URL, body),
+  update: async (body: Book) => await api.put(BOOKS_BASE_URL, body),
+  getReaderReservations: async () =>
+    await api.get(`${BOOKS_BASE_URL}/my-reservations`),
+  getReaderPendingReservations: async () =>
+    await api.get(`${BOOKS_BASE_URL}/PENDING-reservations`),
 };
