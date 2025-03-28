@@ -18,6 +18,8 @@ import ReservedBooks from "../pages/ReservedBooks";
 import { reservedBooksLoader } from "../loaders/reservedBooksLoader";
 import BooksToReview from "../pages/BooksToReview";
 import { booksToReviewLoader } from "../loaders/booksToReviewLoader";
+import ResetPasswordRequest from "../components/ResetPasswordRequest";
+import ResetPassword from "../components/ResetPassword";
 
 export const routes = [
   {
@@ -114,10 +116,10 @@ export const routes = [
   },
   {
     path: PATHS.REQUEST_PASSWORD_RESET.link,
-    // element: <ResetPasswordRequest />,
+    element: <ResetPasswordRequest />,
   },
   {
     path: PATHS.RESET_PASSWORD.link,
-    // element: <ResetPassword />,
+    element: <ResetPassword />,
   },
 ];
