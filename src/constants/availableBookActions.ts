@@ -8,6 +8,8 @@ import {
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
 import { getUserAvailableBookActionsByPage } from "../utils/bookUtils";
+import { reservationsApi } from "../api/resarvations";
+import { useAuthStore } from "../store/useAuthStore";
 
 export const bookActions: BookActions = {
   more: {
@@ -18,13 +20,16 @@ export const bookActions: BookActions = {
       propName: "id",
     },
     onClick: function (
-      dataToReplace?: string,
+      dataToReplace?: number,
       navigate?: (to: string) => void
     ): void {
       if (!dataToReplace || !navigate) return;
 
       const dynamicLink = this.dynamicParam
-        ? this.link.replace(this.dynamicParam.stringToReplace, dataToReplace)
+        ? this.link.replace(
+            this.dynamicParam.stringToReplace,
+            dataToReplace + ""
+          )
         : this.link;
 
       navigate(dynamicLink);
@@ -48,6 +53,12 @@ export const bookActions: BookActions = {
     },
     disabledIf: "status",
     classes: "button button--primary",
+    onClick: async (dataToReplace?: number) => {
+      if (!dataToReplace) return;
+      await useAuthStore
+        .getState()
+        .withTokenRefresh(() => reservationsApi.create(dataToReplace));
+    },
   },
   edit: {
     title: i18next.t("allBooksPage.editButton"),
@@ -57,13 +68,16 @@ export const bookActions: BookActions = {
       propName: "id",
     },
     onClick: function (
-      dataToReplace?: string,
+      dataToReplace?: number,
       navigate?: (to: string) => void
     ): void {
       if (!dataToReplace || !navigate) return;
 
       const dynamicLink = this.dynamicParam
-        ? this.link.replace(this.dynamicParam.stringToReplace, dataToReplace)
+        ? this.link.replace(
+            this.dynamicParam.stringToReplace,
+            dataToReplace + ""
+          )
         : this.link;
 
       navigate(dynamicLink);
@@ -86,6 +100,12 @@ export const bookActions: BookActions = {
       [BookPage.BookDetails]: false,
     },
     classes: "button button--primary",
+    onClick: async (dataToReplace?: number) => {
+      if (!dataToReplace) return;
+      await useAuthStore
+        .getState()
+        .withTokenRefresh(() => reservationsApi.confirm(dataToReplace));
+    },
   },
   declineReservation: {
     title: i18next.t("additionalButtons.decline"),
@@ -97,6 +117,12 @@ export const bookActions: BookActions = {
       [BookPage.BookDetails]: false,
     },
     classes: "button button--red",
+    onClick: async (dataToReplace?: number) => {
+      if (!dataToReplace) return;
+      await useAuthStore
+        .getState()
+        .withTokenRefresh(() => reservationsApi.decline(dataToReplace));
+    },
   },
 };
 

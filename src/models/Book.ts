@@ -37,7 +37,11 @@ export interface BookActionConfig {
     stringToReplace: string;
     propName: keyof Book;
   };
-  onClick?: (dataToReplace?: string, navigate?: (to: string) => void) => void;
+  onClick?: (
+    dataToReplace?: number,
+    navigate?: (to: string) => void,
+    additionalData?: unknown
+  ) => void;
   disabledIf?: keyof Book;
   classes?: string;
 }
