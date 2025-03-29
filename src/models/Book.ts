@@ -13,6 +13,7 @@ export interface Book {
   author: string;
   publication_year: number;
   genre: string;
+  language: string;
   status: BookStatus;
 }
 

@@ -1,15 +1,15 @@
 import { Params } from "react-router";
-import { dummyBooks } from "../api/dummyBooks";
-// import { booksApi } from "../api/books";
+// import { dummyBooks } from "../api/dummyBooks";
+import { booksApi } from "../api/books";
 
 export async function bookDetailsLoader({ params }: { params: Params }) {
-  // const response = await booksApi.getById(params.courseId || "");
+  const response = await booksApi.getById(params.courseId || "");
 
-  // if (response.status === 200) {
-  //   return response.data;
-  // }
+  if (response.status === 200) {
+    return response.data;
+  }
 
-  // return null;
+  return null;
 
-  return dummyBooks.find((book) => book.id + "" === params.bookId);
+  // return dummyBooks.find((book) => book.id + "" === params.bookId);
 }

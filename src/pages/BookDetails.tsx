@@ -36,6 +36,10 @@ const BookDetails: React.FC = () => {
       value: book.genre,
     },
     {
+      label: t("book.language"),
+      value: book.language,
+    },
+    {
       label: t("book.reserved"),
       value: book.status
         ? t("additionalButtons.yes")

@@ -50,6 +50,7 @@
     "author": "Автор",
     "publicationYear": "Рік видання",
     "genre": "Жанр",
+    "language": "Мова",
     "reserved": "Зарезервовано",
     "available": "У наявності"
   },

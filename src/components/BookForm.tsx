@@ -67,6 +67,15 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
       },
     },
     {
+      id: "language",
+      placeholder: t("book.language"),
+      validation: {
+        required: t("auth.messages.validation.required", {
+          field: t("book.language"),
+        }),
+      },
+    },
+    {
       id: "publication_year",
       placeholder: t("book.publicationYear"),
       validation: {
@@ -90,6 +99,7 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
       author: formData.author,
       genre: formData.genre,
       publication_year: formData.publication_year,
+      language: formData.language,
       status: book?.status || BookStatus.AVAILABLE,
     };
 
