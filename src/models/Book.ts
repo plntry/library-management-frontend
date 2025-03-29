@@ -1,9 +1,10 @@
 import { RegisterOptions } from "react-hook-form";
+import { Notification } from "../contexts/NotificationContext";
 
 export enum BookStatus {
   AVAILABLE = "AVAILABLE",
   RESERVED = "RESERVED",
-  REVIEW = "REVIEW",
+  REVIEW = "PENDING",
 }
 
 export interface Book {
@@ -43,9 +44,10 @@ export interface BookActionConfig {
   onClick?: (
     dataToReplace?: number,
     navigate?: (to: string) => void,
-    additionalData?: unknown
-  ) => void;
-  disabledIf?: keyof Book;
+    book?: Book,
+    addNotification?: (notification: Omit<Notification, "id">) => void
+  ) => void | Promise<void>;
+  disabledIf?: keyof Book | ((book: Book) => boolean);
   classes?: string;
 }
 

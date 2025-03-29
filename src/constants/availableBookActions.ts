@@ -4,12 +4,15 @@ import {
   BookPage,
   UserAvailableBookActions,
   UserAvailableBookActionsByPage,
+  Book,
+  BookStatus,
 } from "../models/Book";
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
 import { getUserAvailableBookActionsByPage } from "../utils/bookUtils";
 import { reservationsApi } from "../api/resarvations";
 import { useAuthStore } from "../store/useAuthStore";
+import { Notification } from "../contexts/NotificationContext";
 
 export const bookActions: BookActions = {
   more: {
@@ -51,13 +54,34 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.BookDetails]: true,
     },
-    disabledIf: "status",
+    disabledIf: (book: Book) => book.status !== BookStatus.AVAILABLE,
     classes: "button button--primary",
-    onClick: async (dataToReplace?: number) => {
-      if (!dataToReplace) return;
-      await useAuthStore
-        .getState()
-        .withTokenRefresh(() => reservationsApi.create(dataToReplace));
+    onClick: async (
+      dataToReplace?: number,
+      navigate?: (to: string) => void,
+      book?: Book,
+      addNotification?: (notification: Omit<Notification, "id">) => void
+    ) => {
+      if (!dataToReplace || !book || !addNotification) return;
+      try {
+        await useAuthStore
+          .getState()
+          .withTokenRefresh(() => reservationsApi.create(dataToReplace));
+        book.status = BookStatus.RESERVED;
+        addNotification({
+          type: "success",
+          message: i18next.t("notifications.reservation.success.message"),
+          description: i18next.t(
+            "notifications.reservation.success.description"
+          ),
+        });
+      } catch {
+        addNotification({
+          type: "error",
+          message: i18next.t("notifications.reservation.error.message"),
+          description: i18next.t("notifications.reservation.error.description"),
+        });
+      }
     },
   },
   edit: {
@@ -100,11 +124,37 @@ export const bookActions: BookActions = {
       [BookPage.BookDetails]: false,
     },
     classes: "button button--primary",
-    onClick: async (dataToReplace?: number) => {
-      if (!dataToReplace) return;
-      await useAuthStore
-        .getState()
-        .withTokenRefresh(() => reservationsApi.confirm(dataToReplace));
+    // disabledIf: (book: Book) => book.status === BookStatus.RESERVED,
+    onClick: async (
+      dataToReplace?: number,
+      navigate?: (to: string) => void,
+      book?: Book,
+      addNotification?: (notification: Omit<Notification, "id">) => void
+    ) => {
+      if (!dataToReplace || !addNotification || !book) return;
+      try {
+        await useAuthStore
+          .getState()
+          .withTokenRefresh(() => reservationsApi.confirm(dataToReplace));
+        book.status = BookStatus.RESERVED;
+        addNotification({
+          type: "success",
+          message: i18next.t(
+            "notifications.reservation.approve.success.message"
+          ),
+          description: i18next.t(
+            "notifications.reservation.approve.success.description"
+          ),
+        });
+      } catch {
+        addNotification({
+          type: "error",
+          message: i18next.t("notifications.reservation.approve.error.message"),
+          description: i18next.t(
+            "notifications.reservation.approve.error.description"
+          ),
+        });
+      }
     },
   },
   declineReservation: {
@@ -117,11 +167,37 @@ export const bookActions: BookActions = {
       [BookPage.BookDetails]: false,
     },
     classes: "button button--red",
-    onClick: async (dataToReplace?: number) => {
-      if (!dataToReplace) return;
-      await useAuthStore
-        .getState()
-        .withTokenRefresh(() => reservationsApi.decline(dataToReplace));
+    disabledIf: (book: Book) => book.status === BookStatus.AVAILABLE,
+    onClick: async (
+      dataToReplace?: number,
+      navigate?: (to: string) => void,
+      book?: Book,
+      addNotification?: (notification: Omit<Notification, "id">) => void
+    ) => {
+      if (!dataToReplace || !addNotification || !book) return;
+      try {
+        await useAuthStore
+          .getState()
+          .withTokenRefresh(() => reservationsApi.decline(dataToReplace));
+        book.status = BookStatus.AVAILABLE;
+        addNotification({
+          type: "success",
+          message: i18next.t(
+            "notifications.reservation.decline.success.message"
+          ),
+          description: i18next.t(
+            "notifications.reservation.decline.success.description"
+          ),
+        });
+      } catch {
+        addNotification({
+          type: "error",
+          message: i18next.t("notifications.reservation.decline.error.message"),
+          description: i18next.t(
+            "notifications.reservation.decline.error.description"
+          ),
+        });
+      }
     },
   },
 };

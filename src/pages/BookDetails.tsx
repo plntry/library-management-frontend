@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useRouteLoaderData } from "react-router";
-import { Book, BookActionConfig, BookPage } from "../models/Book";
+import { Book, BookActionConfig, BookPage, BookStatus } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
@@ -8,6 +8,11 @@ import bookDetailsBg from "../assets/details-books-bg.jpg";
 import { useTranslation } from "react-i18next";
 import BookActionsComp from "../components/BookActions";
 import { useAuthStore } from "../store/useAuthStore";
+
+interface BookDetail {
+  label: string;
+  value: string | number;
+}
 
 const BookDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -22,7 +27,7 @@ const BookDetails: React.FC = () => {
   const availableActions: BookActionConfig[] =
     userAvailableBookActionsByPage[BookPage.BookDetails][role];
 
-  const bookDetails = [
+  const bookDetails: BookDetail[] = [
     {
       label: t("book.author"),
       value: book.author,
@@ -40,10 +45,8 @@ const BookDetails: React.FC = () => {
       value: book.language,
     },
     {
-      label: t("book.reserved"),
-      value: book.status
-        ? t("additionalButtons.yes")
-        : t("additionalButtons.no"),
+      label: t("book.status"),
+      value: t(`book.${book.status}`),
     },
   ];
 
@@ -63,7 +66,7 @@ const BookDetails: React.FC = () => {
         </div>
         <div className="mb-4 space-y-2">
           {bookDetails.map((el, index) => {
-            const isReservedElement = el.label === t("book.reserved");
+            const isStatusElement = el.label === t("book.status");
 
             return (
               <div
@@ -73,10 +76,10 @@ const BookDetails: React.FC = () => {
                 <span className="font-semibold">{el.label}: </span>
                 <span
                   className={`font-semibold ${
-                    isReservedElement
-                      ? el.value === t("additionalButtons.yes")
-                        ? "text-red-600"
-                        : "text-green-700"
+                    isStatusElement
+                      ? el.value === t(`book.${BookStatus.AVAILABLE}`)
+                        ? "text-green-600"
+                        : "text-red-700"
                       : ""
                   }`}
                 >

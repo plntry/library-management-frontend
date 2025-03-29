@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Book, BookPage } from "../models/Book";
+import { Book, BookPage, BookStatus } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
 import BookActionsComp from "./BookActions";
@@ -16,8 +16,12 @@ const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
       <img src={bookPlaceholderImg} alt={book.title} className="card__image" />
       <div className="card__header">
         <h2 className="card__title">{book.title}</h2>
-        <h2 className={`badge ${book.status ? "badge--red" : "badge--green"}`}>
-          {book.status ? t("book.reserved") : t("book.available")}
+        <h2
+          className={`badge ${
+            book.status === BookStatus.AVAILABLE ? "badge--green" : "badge--red"
+          }`}
+        >
+          {t(`book.${book.status}`)}
         </h2>
       </div>
       <p className="card__genre badge">{book.genre}</p>
