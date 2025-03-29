@@ -1,9 +1,9 @@
-import { reservationsApi } from "../api/resarvations";
+import { booksApi } from "../api/books";
 import { Book } from "../models/Book";
 // import { dummyBooks } from "../api/dummyBooks";
 
 export async function reservedBooksLoader() {
-  const response = await reservationsApi.getAllPending();
+  const response = await booksApi.getReaderReservations();
 
   if (response.status === 200) {
     return response.data.map((el: Book) => ({
