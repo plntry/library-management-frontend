@@ -74,7 +74,7 @@ export const useAuthStore = create<AuthState>()(
           const response = await requestFunc();
           return response;
         } catch (error: unknown) {
-          if (axios.isAxiosError(error) && error.response?.status === 401) {
+          if (axios.isAxiosError(error)) {
             const refreshed = await get().refreshAuthToken();
             if (refreshed) {
               return await requestFunc();

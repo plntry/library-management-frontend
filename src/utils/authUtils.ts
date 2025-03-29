@@ -3,6 +3,7 @@ import { PATHS } from "../routes/paths";
 import { LoginFormData, RegisterFormData } from "../models/Auth";
 import { UserLogin, UserRegistration, UserRoles } from "../models/User";
 import { useAuthStore } from "../store/useAuthStore";
+import { authApi } from "../api/auth";
 
 export const getRequestBody = {
   register: (formData: RegisterFormData) => {
@@ -28,17 +29,12 @@ export const getRequestBody = {
 };
 
 export const rootLoader: LoaderFunction = async () => {
-  const { isAuthenticated, checkAuth } = useAuthStore.getState();
+  const { withTokenRefresh } = useAuthStore.getState();
 
-  if (!isAuthenticated) {
-    await checkAuth();
-  }
-
-  const { isAuthenticated: updatedIsAuthenticated } = useAuthStore.getState();
-
-  if (!updatedIsAuthenticated) {
+  try {
+    await withTokenRefresh(async () => await authApi.getUser());
+    return null;
+  } catch {
     return redirect(PATHS.AUTH.link);
   }
-
-  return null;
 };
