@@ -3,7 +3,7 @@ import { Params } from "react-router";
 import { booksApi } from "../api/books";
 
 export async function bookDetailsLoader({ params }: { params: Params }) {
-  const response = await booksApi.getById(params.courseId || "");
+  const response = await booksApi.getById(params.bookId || "");
 
   if (response.status === 200) {
     return response.data;
