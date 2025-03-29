@@ -58,7 +58,7 @@ export const bookActions: BookActions = {
     classes: "button button--primary",
     onClick: async (
       dataToReplace?: number,
-      navigate?: (to: string) => void,
+      _navigate?: (to: string) => void,
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
@@ -127,7 +127,7 @@ export const bookActions: BookActions = {
     // disabledIf: (book: Book) => book.status === BookStatus.RESERVED,
     onClick: async (
       dataToReplace?: number,
-      navigate?: (to: string) => void,
+      _navigate?: (to: string) => void,
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
@@ -170,7 +170,7 @@ export const bookActions: BookActions = {
     disabledIf: (book: Book) => book.status === BookStatus.AVAILABLE,
     onClick: async (
       dataToReplace?: number,
-      navigate?: (to: string) => void,
+      _navigate?: (to: string) => void,
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
