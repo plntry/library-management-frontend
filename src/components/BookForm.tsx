@@ -4,7 +4,12 @@ import logo from "../assets/library-logo.png";
 import { useTranslation } from "react-i18next";
 import FormInput from "./FormInput";
 import { useNotification } from "../hooks/useNotification";
-import { Book, BookInputData } from "../models/Book";
+import {
+  Book,
+  BookInputData,
+  BookStatus,
+  BookCreateUpdateData,
+} from "../models/Book";
 import { booksApi } from "../api/books";
 import { handleAxiosRequest } from "../utils/axiosUtils";
 
@@ -16,7 +21,7 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Book>({
+  } = useForm<BookCreateUpdateData>({
     mode: "onChange",
     defaultValues: book || {},
   });
@@ -78,12 +83,14 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
     },
   ];
 
-  const onSubmit = async (formData: Book) => {
-    // TODO: remove fields filtration when the api is done
+  const onSubmit = async (formData: BookCreateUpdateData) => {
     const finalData = {
       title: formData.title,
       description: formData.description,
       author: formData.author,
+      genre: formData.genre,
+      publication_year: formData.publication_year,
+      status: book?.status || BookStatus.AVAILABLE,
     };
 
     await handleAxiosRequest(
@@ -116,7 +123,7 @@ const BookForm: React.FC<{ book?: Book }> = ({ book }) => {
                 type,
                 placeholder,
               }}
-              errorProp={errors[id as keyof Book]}
+              errorProp={errors[id as keyof BookCreateUpdateData]}
             />
           ))}
 

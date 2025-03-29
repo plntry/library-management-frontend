@@ -16,6 +16,8 @@ export interface Book {
   status: BookStatus;
 }
 
+export type BookCreateUpdateData = Omit<Book, "id">;
+
 export enum BookPage {
   AllBooks = "allBooks",
   MyBooks = "myBooks",
@@ -24,9 +26,9 @@ export enum BookPage {
 }
 
 export interface BookInputData
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  id: keyof Book;
-  validation?: RegisterOptions<Book>;
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> {
+  id: keyof BookCreateUpdateData;
+  validation?: RegisterOptions<BookCreateUpdateData>;
 }
 
 export interface BookActionConfig {
