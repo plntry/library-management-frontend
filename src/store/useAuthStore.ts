@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios, { AxiosResponse } from "axios";
 import { jwtDecode } from "jwt-decode";
-import { AuthUser, UserRoles } from "../models/User";
+import { AuthUser } from "../models/User";
 import { authApi } from "../api/auth";
 
 interface AuthState {
@@ -37,10 +37,7 @@ export const useAuthStore = create<AuthState>()(
 
       setUser: (user, accessToken, refreshToken) => {
         set({
-          // TODO: update with actual role when the API is done
-          user: user
-            ? ({ ...user, role: UserRoles.LIBRARIAN } as AuthUser)
-            : null, // user,
+          user: user,
           accessToken: accessToken || null,
           refreshToken: refreshToken || null,
           isAuthenticated: !!user,

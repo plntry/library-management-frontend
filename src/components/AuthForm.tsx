@@ -198,8 +198,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
                   const nonAllowed = /[^A-Za-z0-9!@#$%^&*(),.?":{}|<>]/.test(
                     value
                   );
-                  console.log({ nonAllowed });
-
                   return !nonAllowed || t("auth.messages.validation.latinOnly");
                 },
                 hasSpecial: (value: string) =>

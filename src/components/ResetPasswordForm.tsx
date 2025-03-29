@@ -13,6 +13,7 @@ import {
 } from "../models/Auth";
 import { jwtDecode } from "jwt-decode";
 import GoBackButton from "./GoBackButton";
+import { useAuthStore } from "../store/useAuthStore";
 
 type FormData = RequestResetPasswordFormData | ResetPasswordFormData;
 
@@ -36,6 +37,7 @@ const ResetPasswordForm: React.FC<{
   const { t } = useTranslation();
   const notify = useNotification();
   const navigate = useNavigate();
+  const resetLoginAttempts = useAuthStore((state) => state.resetLoginAttempts);
   const {
     register,
     handleSubmit,
@@ -87,17 +89,17 @@ const ResetPasswordForm: React.FC<{
               field: t("auth.formData.password"),
             }),
           onlyLatin: (value: string) => {
-            const nonLatin = /[^\d!@#$%^&*(),.?":{}|<>A-Za-z]/.test(value);
-            return !nonLatin || t("auth.messages.validation.latinOnly");
+            const nonAllowed = /[^A-Za-z0-9!@#$%^&*(),.?":{}|<>]/.test(value);
+            return !nonAllowed || t("auth.messages.validation.latinOnly");
           },
-          hasLatin: (value: string) =>
-            /[A-Za-z]/.test(value) ||
-            t("auth.messages.validation.latinRequired"),
           hasSpecial: (value: string) =>
             /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
             t("auth.messages.validation.specialRequired"),
           hasNumber: (value: string) =>
             /\d/.test(value) || t("auth.messages.validation.numberRequired"),
+          hasLatin: (value: string) =>
+            /[A-Za-z]/.test(value) ||
+            t("auth.messages.validation.latinRequired"),
         },
       },
     },
@@ -166,10 +168,9 @@ const ResetPasswordForm: React.FC<{
             resetData.confirm
           );
           if (!axios.isAxiosError(response)) {
-            notify(errorNotification, 5000);
-            setTimeout(() => {
-              navigate(PATHS.AUTH.link);
-            }, 5000);
+            resetLoginAttempts();
+            notify(successNotification, 5000);
+            navigate(PATHS.AUTH.link);
           } else {
             notify(
               {
