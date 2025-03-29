@@ -52,6 +52,10 @@ body {
   @apply mb-2 flex justify-between items-center gap-2;
 }
 
+.card__image {
+  @apply w-full h-48 object-cover mb-4 rounded-lg;
+}
+
 .card__title {
   @apply text-xl font-extrabold tracking-tight text-primary-400 truncate;
 }

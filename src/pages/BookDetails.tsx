@@ -37,7 +37,7 @@ const BookDetails: React.FC = () => {
     },
     {
       label: t("book.reserved"),
-      value: book.is_reserved
+      value: book.status
         ? t("additionalButtons.yes")
         : t("additionalButtons.no"),
     },

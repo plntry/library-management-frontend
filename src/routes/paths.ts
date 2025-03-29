@@ -15,7 +15,7 @@ export const PATHS = {
     roles: [],
   },
   RESET_PASSWORD: {
-    link: "/reset-password/:token",
+    link: "/reset-password",
     roles: [],
   },
   LOGOUT: { link: "logout", roles: Object.values(UserRoles) },

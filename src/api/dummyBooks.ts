@@ -7,7 +7,7 @@ export const dummyBooks = [
     author: "Озоз Сокох",
     publication_year: 2003,
     genre: "Кулінарія",
-    is_reserved: true,
+    status: true,
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ export const dummyBooks = [
     author: "Арі Колендер",
     publication_year: 2003,
     genre: "Кулінарія",
-    is_reserved: false,
+    status: false,
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const dummyBooks = [
     author: "Елена Бейкер",
     publication_year: 2010,
     genre: "Випічка",
-    is_reserved: false,
+    status: false,
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const dummyBooks = [
     author: "Марко Делізіозо",
     publication_year: 2015,
     genre: "Кулінарія",
-    is_reserved: false,
+    status: false,
   },
   {
     id: 5,
@@ -51,6 +51,6 @@ export const dummyBooks = [
     author: "Ліла Грін",
     publication_year: 2018,
     genre: "Вегетаріанська",
-    is_reserved: true,
+    status: true,
   },
 ];

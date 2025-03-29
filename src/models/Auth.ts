@@ -30,3 +30,13 @@ export interface AuthResponse {
 export interface APIError {
   detail?: string | { msg: string }[];
 }
+
+export interface RequestResetPasswordFormData {
+  email: string;
+}
+
+export interface ResetPasswordFormData {
+  email: string;
+  password: string;
+  confirm: string;
+}
