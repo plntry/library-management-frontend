@@ -24,7 +24,8 @@ interface FormInput {
 }
 
 interface DecodedToken {
-  sub: string; // email
+  sub: string;
+  email: string;
   exp: number;
 }
 
@@ -160,10 +161,9 @@ const ResetPasswordForm: React.FC<{
           const decodedToken = jwtDecode<DecodedToken>(token);
           const resetData = formData as ResetPasswordFormData;
           const response = await authApi.resetPassword(
-            decodedToken.sub,
+            decodedToken.email,
             resetData.password,
             resetData.confirm
-            // token
           );
           if (!axios.isAxiosError(response)) {
             notify(errorNotification, 5000);
