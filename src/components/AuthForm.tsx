@@ -16,7 +16,6 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { authApi } from "../api/auth";
 import { useNotification } from "../hooks/useNotification";
 import { useAuthStore } from "../store/useAuthStore";
-import { jwtDecode } from "jwt-decode";
 
 const TIME_TO_PREVENT_LOGIN_MS = 10 * 60 * 1000;
 
@@ -255,10 +254,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         }, 5000);
       } else {
         resetLoginAttempts();
-
-        const { access_token, refresh_token } = response.data;
-        setUser(jwtDecode(access_token), access_token, refresh_token);
-
+        const { data } = await authApi.getUser();
+        setUser(data);
         navigate(PATHS.HOME.link);
       }
     } else {

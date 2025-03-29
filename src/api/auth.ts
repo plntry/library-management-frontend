@@ -28,8 +28,8 @@ export const authApi = {
     }
   },
   logout: async () => await api.post(getAuthUrl(requestUrls.logout)),
-  refreshToken: async (refresh_token: string) =>
-    await api.post(getAuthUrl(requestUrls.refreshToken), { refresh_token }),
+  refreshToken: async () =>
+    await api.post(getAuthUrl(requestUrls.refreshToken)),
   requestResetPassword: async (email: string) =>
     await api.post(
       `${getAuthUrl(requestUrls.requestResetPassword)}?email=${email}`
@@ -38,11 +38,11 @@ export const authApi = {
     email: string,
     new_password: string,
     confirm_password: string
-    // token: string
   ) =>
     await api.post(getAuthUrl(requestUrls.resetPassword), {
       email,
       new_password,
       confirm_password,
     }),
+  getUser: async () => await api.get("/api/v1/users/me"),
 };
