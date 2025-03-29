@@ -21,111 +21,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
-          ref: devops/pipeline
-        
+          fetch-depth: 0        
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+  
+      - name: Install dependencies
+        run: npm ci
+  
+      - name: Build frontend
+        run: VITE_API_BASE_URL=https://bookspace.pp.ua npm run build
+  
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Log in to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build and push frontend image
-        env:
-          GIT_SHA: ${{ github.sha }}
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+  
+      - name: Upload to S3
+        run: aws s3 sync dist/ s3://bookspace.pp.ua/ --delete
+  
+      - name: Invalidate CloudFront cache
         run: |
-          BRANCH_TAG=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g') # Очищаємо назву гілки для тегу
-          docker build -t frontend .
-          docker tag frontend $ECR_REGISTRY/frontend:$BRANCH_TAG-$GIT_SHA
-          docker push $ECR_REGISTRY/frontend:$BRANCH_TAG-$GIT_SHA
-
-      # Deploy to EC2
-      - name: Get EC2 public IP
-        id: ec2_ip
-        run: |
-          EC2_INSTANCE_ID=${{ secrets.EC2_INSTANCE_ID }}
-          EC2_PUBLIC_IP=$(aws ec2 describe-instances \
-          --instance-id $EC2_INSTANCE_ID \
-          --query "Reservations[0].Instances[0].PublicIpAddress" \
-          --output text \
-          --region ${{ secrets.AWS_REGION }})
-          echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
-
-      - name: Show EC2 Public IP
-        run: echo "Deploying to EC2 at IP:${{ env.EC2_PUBLIC_IP }}"
-
-      - name: Deploy to EC2
-        env:
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-          GIT_SHA: ${{ github.sha }}
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-          echo "Testing SSH connection to EC2..."
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.EC2_PUBLIC_IP }} \
-          "ECR_REGISTRY=${{ secrets.ECR_REGISTRY }} GIT_SHA=${{ github.sha }} BRANCH_NAME=${{ env.BRANCH_NAME }} bash -s" << 'EOF'
-
-          set -a
-          export AWS_REGION=${{ secrets.AWS_REGION }}
-          export ECR_REGISTRY=${ECR_REGISTRY}
-          export GIT_SHA=${GIT_SHA}
-          export BRANCH_NAME=${BRANCH_NAME}
-
-          cd /home/ec2-user/library
-
-          aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$ECR_REGISTRY"
-
-          containers=("redis" "alembic" "grafana")
-          # Inspection of each container
-          for container in "${containers[@]}"; do
-            if [[ -z "$(docker ps --filter "name=$container" --format '{{.Names}}')" ]]; then
-              echo "$container the container is not running. Let's start it..."
-              docker-compose up -d $container
-            else
-              echo "$container the container is already running."
-            fi
-          done
-
-          echo "GIT_SHA is: $GIT_SHA"
-          echo "BRANCH_NAME is: $BRANCH_NAME"
-
-          BRANCH_TAG=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g')
-          echo "Checking updates for frontend..."
-
-          IMAGE_EXISTS=$(aws ecr describe-images --repository-name frontend --image-ids imageTag=${BRANCH_TAG}-${GIT_SHA} --query 'imageDetails[0].imageDigest' --output text 2>/dev/null || echo "None")
-
-          echo "Updating docker-compose.yml with new images..."
-          sed -i "s#image: .*/frontend:.*#image: ${ECR_REGISTRY}/frontend:${BRANCH_TAG}-${GIT_SHA}#g" docker-compose.yml
-
-          if [[ "$IMAGE_EXISTS" != "None" ]]; then
-            echo "New image found for frontend. Updating..."
-
-            echo "Stopping old container..."
-            docker stop frontend
-
-            echo "Removing old container..."
-            docker rm frontend
-
-            echo "Starting new container..."
-            docker-compose build --no-cache
-            docker-compose up -d --no-deps frontend
-
-          else
-            echo "No new image for frontend. Skipping update."
-          fi
-
-          echo "Current running container images after restart:"
-          docker ps --format "table {{.Names}}\t{{.Image}}"
-
-          EOF
+            aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+              --paths "/*"

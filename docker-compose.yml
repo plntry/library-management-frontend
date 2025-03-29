@@ -8,8 +8,7 @@ services:
      - "80:80"
    networks:
      - app_network
-   environment:
-     - REACT_APP_API_URL=http://fastapi_app:5000
+
 
 networks:
   app_network:
