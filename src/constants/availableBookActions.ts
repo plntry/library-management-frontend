@@ -131,6 +131,8 @@ export const bookActions: BookActions = {
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
+      console.log({ dataToReplace });
+      
       if (!dataToReplace || !addNotification || !book) return;
       try {
         await useAuthStore

@@ -12,7 +12,7 @@ export async function booksToReviewLoader() {
       .filter((el: Book) => el.status !== BookStatus.REVIEW)
       .map((el: Book) => ({
         ...el,
-        id: el.reservation_id,
+        // id: el.reservation_id,
         key: el.id,
       }));
   }
