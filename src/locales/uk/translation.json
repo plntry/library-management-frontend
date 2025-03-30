@@ -51,9 +51,10 @@
     "publicationYear": "Рік видання",
     "genre": "Жанр",
     "language": "Мова",
-    "PENDING": "Зарезервовано",
+    "CHECKED_OUT": "На руках",
     "AVAILABLE": "У наявності",
-    "RESERVED": "На руках",
+    "RESERVED": "Зарезервовано",
+    "PENDING": "Зарезервовано",
     "status": "Статус"
   },
   "header": {

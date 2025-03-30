@@ -3,8 +3,8 @@ import { Notification } from "../contexts/NotificationContext";
 
 export enum BookStatus {
   AVAILABLE = "AVAILABLE",
-  RESERVED = "RESERVED",
   REVIEW = "PENDING",
+  RESERVED = "CHECKED_OUT",
 }
 
 export interface Book {
@@ -16,6 +16,7 @@ export interface Book {
   genre: string;
   language: string;
   status: BookStatus;
+  reservation_id?: number;
 }
 
 export type BookCreateUpdateData = Omit<Book, "id">;
