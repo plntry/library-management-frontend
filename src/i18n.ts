@@ -12,7 +12,10 @@ i18n
     resources,
     defaultNS,
     fallbackLng: "uk",
-    lng: "uk",
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
+    },
     interpolation: { escapeValue: false },
   });
 

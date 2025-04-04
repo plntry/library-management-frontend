@@ -1,19 +1,192 @@
 {
   "appName": "Chytailyk",
+  "languageSelectors": {
+    "ua": "UA",
+    "en": "EN"
+  },
   "auth": {
     "register": "Register",
-    "login": "Log in",
+    "login": "Login",
     "messages": {
       "navigateToRegister": "Don't have an account?",
-      "navigateToLogin": "Already have an account?"
+      "navigateToLogin": "Already registered?",
+      "validation": {
+        "required": "{{field}} is required",
+        "decimalNumber": "{{field}} must be an integer",
+        "format": {
+          "email": "Invalid email format"
+        },
+        "length": {
+          "password": "Password length must be at least 8 characters"
+        },
+        "noSpaces": "{{field}} must not contain spaces",
+        "lettersOnly": "{{field}} can contain only letters and hyphens",
+        "confirmPassword": "Passwords do not match",
+        "latinRequired": "Password must contain Latin letters",
+        "latinOnly": "Password can contain only Latin letters, numbers, and special characters from the list: !@#$%^&*(),.?\":{}|<>",
+        "specialRequired": "Password must contain at least 1 special character from the list: !@#$%^&*(),.?\":{}|<>",
+        "numberRequired": "Password must contain at least 1 digit"
+      },
+      "passwordReset": {
+        "failedLogin": "Too many failed login attempts",
+        "please": "Please,",
+        "resetYourPassword": "reset your password",
+        "orTryToLoginIn": "or try logging in again in",
+        "minutes": "min",
+        "seconds": "sec",
+        "resetPassword": "Password reset",
+        "requestPasswordReset": "Request password reset",
+        "newPassword": "New password"
+      }
     },
     "formData": {
       "email": "Email",
       "password": "Password",
       "username": "Username",
-      "firstName": "First Name",
-      "lastName": "Last Name",
-      "confirmPassword": "Confirm Password"
+      "firstName": "First name",
+      "lastName": "Last name",
+      "confirmPassword": "Confirm password"
+    }
+  },
+  "book": {
+    "title": "Title",
+    "description": "Description",
+    "author": "Author",
+    "publicationYear": "Publication Year",
+    "genre": "Genre",
+    "language": "Language",
+    "CHECKED_OUT": "Checked Out",
+    "AVAILABLE": "Available",
+    "RESERVED": "Reserved",
+    "PENDING": "Pending",
+    "status": "Status"
+  },
+  "header": {
+    "home": "Home",
+    "allBooks": "All Books",
+    "reservedBooks": "My Books",
+    "booksToReview": "Requests",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "errorPage": {
+    "title": "Something went wrong...",
+    "description": "Sorry, we couldn't find this page. Perhaps you can find something interesting on the homepage?",
+    "navigationText": "Home Page"
+  },
+  "allBooksPage": {
+    "title": "What will you read today?",
+    "searchPlaceholder": "Search for books...",
+    "noBooksMessage": "No books found matching your query",
+    "moreButton": "More...",
+    "editButton": "Edit",
+    "reserveButton": "Reserve"
+  },
+  "myBooksPage": {
+    "title": "My Books"
+  },
+  "booksToReviewPage": {
+    "title": "Reservation Requests"
+  },
+  "bookDetailsPage": {
+    "title": ""
+  },
+  "additionalButtons": {
+    "goBack": "Go Back",
+    "yes": "Yes",
+    "no": "No",
+    "create": "Add",
+    "update": "Update",
+    "addNewBook": "Add Book",
+    "updateBook": "Edit Book",
+    "approve": "Approve",
+    "decline": "Decline",
+    "send": "Send",
+    "reset": "Reset",
+    "orGoBack": "or go back"
+  },
+  "notifications": {
+    "default": {
+      "success": {
+        "message": "Success",
+        "description": "Operation completed successfully"
+      },
+      "error": {
+        "message": "An error occurred",
+        "description": "Please, try again later"
+      }
+    },
+    "register": {
+      "success": {
+        "message": "User registered successfully!",
+        "description": "The login page will automatically open in 5 seconds. To go immediately, click \"Login\"."
+      },
+      "error": {
+        "message": "Error",
+        "description": "An error occurred during user registration. Please, try again later"
+      }
+    },
+    "login": {
+      "error": {
+        "message": "Error",
+        "description": "An error occurred while trying to log in. Please, try again later"
+      }
+    },
+    "resetPassword": {
+      "success": {
+        "message": "Password successfully changed",
+        "description": "You can now log in with the new password"
+      },
+      "error": {
+        "message": "Error",
+        "description": "An error occurred while changing your password. Please, try again later"
+      }
+    },
+    "requestPasswordReset": {
+      "success": {
+        "message": "Password reset request sent",
+        "description": "Please, check your email for further instructions"
+      },
+      "error": {
+        "message": "Error",
+        "description": "An error occurred sending the password reset request. Please, try again later"
+      }
+    },
+    "book": {
+      "create": {
+        "success": {
+          "message": "Book added successfully!",
+          "description": "Click \"Go Back\" to return to the book list"
+        },
+        "error": {
+          "message": "Error adding book",
+          "description": "An error occurred adding the new book. Please, try again later"
+        }
+      },
+      "update": {
+        "success": {
+          "message": "Changes saved!",
+          "description": "All changes were successfully saved"
+        },
+        "error": {
+          "message": "Error editing book",
+          "description": "An error occurred editing the book. Please, try again later"
+        }
+      }
+    },
+    "reservation": {
+      "success": {
+        "message": "Book reserved successfully!",
+        "description": "You can find it in the \"My Books\" section"
+      }
+    }
+  },
+  "homepage": {
+    "title": "A person with a good book in their hands can never be alone",
+    "slides": {
+      "findBook": "Find your favorite book on \"All Books\" page",
+      "newWorld": "Discover a new world with every page",
+      "readDreamLive": "Read - Dream - Live"
     }
   }
 }

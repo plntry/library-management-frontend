@@ -27,7 +27,7 @@ export const routes = [
     path: PATHS.HOME.link,
     element: <RootLayout />,
     errorElement: <ErrorPage />,
-    loader: rootLoader,
+    // loader: rootLoader,
     HydrateFallback: Loader,
     children: [
       {
