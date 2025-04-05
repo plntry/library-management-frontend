@@ -20,6 +20,8 @@ import BooksToReview from "../pages/BooksToReview";
 import { booksToReviewLoader } from "../loaders/booksToReviewLoader";
 import ResetPasswordRequest from "../components/ResetPasswordRequest";
 import ResetPassword from "../components/ResetPassword";
+import ApprovedReservations from "../pages/ApprovedReservations";
+import { approvedReservationsLoader } from "../loaders/approvedReservationsLoader";
 
 export const routes = [
   {
@@ -65,6 +67,17 @@ export const routes = [
               </ProtectedRoute>
             ),
             loader: booksToReviewLoader,
+          },
+          {
+            path: PATHS.APPROVED_RESERVATIONS.link,
+            element: (
+              <ProtectedRoute
+                allowedRoles={[...PATHS.APPROVED_RESERVATIONS.roles]}
+              >
+                <ApprovedReservations />
+              </ProtectedRoute>
+            ),
+            loader: approvedReservationsLoader,
           },
           {
             id: "bookDetails",

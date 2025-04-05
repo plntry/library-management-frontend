@@ -4,6 +4,7 @@ import {
   BookStatus,
   ReservationStatus,
   Book,
+  ReservationPage,
 } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
@@ -12,9 +13,10 @@ import { useAuthStore } from "../store/useAuthStore";
 import bookPlaceholderImg from "../assets/book-placeholder.avif";
 import { getStatusBadgeClass } from "../utils/styleUtils";
 
-const ReservationItem: React.FC<{ reservation: ReservationBook }> = ({
-  reservation,
-}) => {
+const ReservationItem: React.FC<{
+  reservation: ReservationBook;
+  mode: ReservationPage;
+}> = ({ reservation, mode }) => {
   const { t } = useTranslation();
   const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
 
@@ -61,7 +63,7 @@ const ReservationItem: React.FC<{ reservation: ReservationBook }> = ({
       </div>
       <BookActionsComp
         book={bookData}
-        actions={userAvailableBookActionsByPage.booksToReview[role]}
+        actions={userAvailableBookActionsByPage[mode][role]}
       />
     </div>
   );

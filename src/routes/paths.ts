@@ -5,6 +5,10 @@ export const PATHS = {
   BOOKS: { link: "/books", roles: Object.values(UserRoles) },
   RESERVED_BOOKS: { link: "/books/reserved", roles: [UserRoles.READER] },
   BOOKS_TO_REVIEW: { link: "/books/review", roles: [UserRoles.LIBRARIAN] },
+  APPROVED_RESERVATIONS: {
+    link: "/books/approved",
+    roles: [UserRoles.LIBRARIAN],
+  },
   BOOK: { link: "/books/:bookId", roles: Object.values(UserRoles) },
   EDIT_BOOK: { link: "edit", roles: [UserRoles.LIBRARIAN] },
   DELETE_BOOK: { link: "delete", roles: [UserRoles.LIBRARIAN] },

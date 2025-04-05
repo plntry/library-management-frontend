@@ -67,6 +67,7 @@
     "allBooks": "All Books",
     "reservedBooks": "My Books",
     "booksToReview": "Requests",
+    "approvedReservations": "Approved Books",
     "login": "Login",
     "logout": "Logout"
   },
@@ -190,14 +191,19 @@
       "readDreamLive": "Read - Dream - Live"
     }
   },
-  "reservationsPage": {
+  "booksToReview": {
     "title": "Reservations",
     "searchPlaceholder": "Search reservations...",
     "noReservationsMessage": "No reservations found"
   },
+  "approvedReservations": {
+    "title": "Approved Books Reservations",
+    "searchPlaceholder": "Search approved reservations...",
+    "noReservationsMessage": "No approved reservations found"
+  },
   "reservation": {
     "PENDING": "Reserved",
-    "CONFIRMED": "Confirmed",
+    "CONFIRMED": "Delivered",
     "CANCELED": "Cancelled",
     "reservedAt": "Reserved at",
     "userEmail": "User email"

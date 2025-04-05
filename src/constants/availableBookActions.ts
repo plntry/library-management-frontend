@@ -42,6 +42,7 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: true,
       [BookPage.BooksToReview]: false,
+      [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
     },
     classes: "button button--secondary",
@@ -53,6 +54,7 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: false,
+      [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: true,
     },
     disabledIf: (book: Book) => book.status !== BookStatus.AVAILABLE,
@@ -111,6 +113,7 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: false,
+      [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: true,
     },
     classes: "button",
@@ -122,6 +125,7 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: false,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: true,
+      [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
     },
     classes: "button button--primary",
@@ -171,12 +175,14 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: false,
       [BookPage.MyBooks]: true,
       [BookPage.BooksToReview]: true,
+      [BookPage.ApprovedReservations]: true,
       [BookPage.BookDetails]: false,
     },
     classes: "button button--red",
     disabledIf: (book: Book) =>
       book.status === BookStatus.AVAILABLE ||
-      book.status === BookStatus.RESERVED,
+      (book.status === BookStatus.RESERVED &&
+        book.reservation_status === ReservationStatus.CONFIRMED),
     onClick: async (
       dataToReplace?: number,
       _navigate?: (to: string) => void,

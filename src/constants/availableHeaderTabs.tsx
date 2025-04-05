@@ -33,6 +33,10 @@ export const headerTabs: MenuItem[] = [
     label: i18next.t("header.booksToReview"),
   },
   {
+    key: PATHS.APPROVED_RESERVATIONS.link,
+    label: i18next.t("header.approvedReservations"),
+  },
+  {
     key: PATHS.LOGOUT.link,
     label: i18next.t("header.logout"),
     icon: <LogOutIcon className="w-5 h-5 text-primary-500" />,

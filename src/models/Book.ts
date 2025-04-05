@@ -46,7 +46,13 @@ export enum BookPage {
   AllBooks = "allBooks",
   MyBooks = "myBooks",
   BooksToReview = "booksToReview",
+  ApprovedReservations = "approvedReservations",
   BookDetails = "bookDetails",
+}
+
+export enum ReservationPage {
+  BooksToReview = BookPage.BooksToReview,
+  ApprovedReservations = BookPage.ApprovedReservations,
 }
 
 export interface BookInputData

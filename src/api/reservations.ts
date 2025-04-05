@@ -3,7 +3,6 @@ import api from ".";
 const RESERVATIONS_BASE_URL = "/api/v1/reservations";
 
 export const reservationsApi = {
-  getListByFilter: async () => await api.get(`${RESERVATIONS_BASE_URL}`),
   getAllByStatus: async (status: string) =>
     await api.get(`${RESERVATIONS_BASE_URL}?status=${status}`),
   create: async (book_id: number) =>

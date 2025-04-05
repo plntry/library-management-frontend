@@ -66,6 +66,7 @@
     "allBooks": "Усі Книги",
     "reservedBooks": "Мої Книги",
     "booksToReview": "Запити",
+    "approvedReservations": "Видані Книги",
     "login": "Увійти",
     "logout": "Вийти"
   },
@@ -195,7 +196,7 @@
       },
       "decline": {
         "success": {
-          "message": "Бронювання відхилено",
+          "message": "Бронювання скасовано",
           "description": "Книга повернута до доступних"
         },
         "error": {
@@ -213,10 +214,15 @@
       "readDreamLive": "Читай - мрій - живи"
     }
   },
-  "reservationsPage": {
+  "booksToReview": {
     "title": "Запити на видачу",
     "searchPlaceholder": "Пошук запитів...",
     "noReservationsMessage": "Запитів на видачу не знайдено"
+  },
+  "approvedReservations": {
+    "title": "Видані Книги",
+    "searchPlaceholder": "Пошук виданих книг...",
+    "noReservationsMessage": "Виданих книг не знайдено"
   },
   "reservation": {
     "PENDING": "Зарезервовано",
