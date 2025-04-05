@@ -6,11 +6,12 @@ import {
   UserAvailableBookActionsByPage,
   Book,
   BookStatus,
+  ReservationStatus,
 } from "../models/Book";
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
 import { getUserAvailableBookActionsByPage } from "../utils/bookUtils";
-import { reservationsApi } from "../api/resarvations";
+import { reservationsApi } from "../api/reservations";
 import { useAuthStore } from "../store/useAuthStore";
 import { Notification } from "../contexts/NotificationContext";
 
@@ -121,24 +122,28 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: false,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: true,
-      [BookPage.BookDetails]: true,
+      [BookPage.BookDetails]: false,
     },
     classes: "button button--primary",
-    disabledIf: (book: Book) => book.status === BookStatus.RESERVED,
+    disabledIf: (book: Book) =>
+      book.status === BookStatus.RESERVED ||
+      book.status === BookStatus.AVAILABLE,
     onClick: async (
       dataToReplace?: number,
       _navigate?: (to: string) => void,
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
-      console.log({ dataToReplace });
-      
       if (!dataToReplace || !addNotification || !book) return;
       try {
+        const reservationId = book.reservation_id;
+        if (!reservationId) return;
+
         await useAuthStore
           .getState()
-          .withTokenRefresh(() => reservationsApi.confirm(dataToReplace));
+          .withTokenRefresh(() => reservationsApi.confirm(reservationId));
         book.status = BookStatus.RESERVED;
+        book.reservation_status = ReservationStatus.CONFIRMED;
         addNotification({
           type: "success",
           message: i18next.t(
@@ -164,12 +169,14 @@ export const bookActions: BookActions = {
     link: "",
     visible: {
       [BookPage.AllBooks]: false,
-      [BookPage.MyBooks]: false,
+      [BookPage.MyBooks]: true,
       [BookPage.BooksToReview]: true,
-      [BookPage.BookDetails]: true,
+      [BookPage.BookDetails]: false,
     },
     classes: "button button--red",
-    disabledIf: (book: Book) => book.status === BookStatus.AVAILABLE,
+    disabledIf: (book: Book) =>
+      book.status === BookStatus.AVAILABLE ||
+      book.status === BookStatus.RESERVED,
     onClick: async (
       dataToReplace?: number,
       _navigate?: (to: string) => void,
@@ -178,9 +185,12 @@ export const bookActions: BookActions = {
     ) => {
       if (!dataToReplace || !addNotification || !book) return;
       try {
+        const reservationId = (book as Book).reservation_id;
+        if (!reservationId) return;
+
         await useAuthStore
           .getState()
-          .withTokenRefresh(() => reservationsApi.decline(dataToReplace));
+          .withTokenRefresh(() => reservationsApi.decline(reservationId));
         book.status = BookStatus.AVAILABLE;
         addNotification({
           type: "success",
@@ -205,7 +215,11 @@ export const bookActions: BookActions = {
 };
 
 export const userAvailableBookActions: UserAvailableBookActions = {
-  [UserRoles.READER]: [bookActions.reserve, bookActions.more],
+  [UserRoles.READER]: [
+    bookActions.reserve,
+    bookActions.declineReservation,
+    bookActions.more,
+  ],
   [UserRoles.LIBRARIAN]: [
     bookActions.edit,
     bookActions.approveReservation,

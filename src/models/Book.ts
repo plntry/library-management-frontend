@@ -3,8 +3,14 @@ import { Notification } from "../contexts/NotificationContext";
 
 export enum BookStatus {
   AVAILABLE = "AVAILABLE",
-  REVIEW = "PENDING",
+  REVIEW = "RESERVED",
   RESERVED = "CHECKED_OUT",
+}
+
+export enum ReservationStatus {
+  REVIEW = "PENDING",
+  CONFIRMED = "CONFIRMED",
+  CANCELLED = "CANCELED",
 }
 
 export interface Book {
@@ -16,7 +22,22 @@ export interface Book {
   genre: string;
   language: string;
   status: BookStatus;
-  // reservation_id?: number;
+  reservation_id?: number;
+  reservation_status?: ReservationStatus;
+}
+
+export interface ReservationBook {
+  book_id: number;
+  author: string;
+  title: string;
+  genre: string;
+  language: string;
+  book_status: BookStatus | ReservationStatus;
+  reservation_id: number;
+  reservation_status: string;
+  RESERVED_at: string;
+  user_email: string;
+  user_id: number;
 }
 
 export type BookCreateUpdateData = Omit<Book, "id">;

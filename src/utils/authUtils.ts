@@ -3,7 +3,6 @@ import { PATHS } from "../routes/paths";
 import { LoginFormData, RegisterFormData } from "../models/Auth";
 import { UserLogin, UserRegistration, UserRoles } from "../models/User";
 import { useAuthStore } from "../store/useAuthStore";
-import { authApi } from "../api/auth";
 
 export const getRequestBody = {
   register: (formData: RegisterFormData) => {
@@ -28,13 +27,26 @@ export const getRequestBody = {
   },
 };
 
-export const rootLoader: LoaderFunction = async () => {
-  const { withTokenRefresh } = useAuthStore.getState();
+export const rootLoader: LoaderFunction = async ({ request }) => {
+  const { checkAuth } = useAuthStore.getState();
+  const guestAccessiblePaths = new Set(["/auth"]);
+  const pathname = new URL(request.url).pathname;
+  const currentPath =
+    pathname.startsWith("/") && pathname !== PATHS.HOME.link
+      ? pathname.substring(1)
+      : pathname;
+
+  if (guestAccessiblePaths.has(currentPath)) {
+    return null;
+  }
 
   try {
-    await withTokenRefresh(async () => await authApi.getUser());
-    return null;
+    await checkAuth();
   } catch {
-    return redirect(PATHS.AUTH.link);
+    if (!guestAccessiblePaths.has(currentPath)) {
+      return redirect(PATHS.AUTH.link);
+    }
   }
+
+  return null;
 };

@@ -8,6 +8,7 @@ import bookDetailsBg from "../assets/details-books-bg.jpg";
 import { useTranslation } from "react-i18next";
 import BookActionsComp from "../components/BookActions";
 import { useAuthStore } from "../store/useAuthStore";
+import { getStatusBadgeClass } from "../utils/styleUtils";
 
 interface BookDetail {
   label: string;
@@ -29,6 +30,10 @@ const BookDetails: React.FC = () => {
 
   const bookDetails: BookDetail[] = [
     {
+      label: t("book.status"),
+      value: t(`book.${book.status}`),
+    },
+    {
       label: t("book.author"),
       value: book.author,
     },
@@ -43,10 +48,6 @@ const BookDetails: React.FC = () => {
     {
       label: t("book.language"),
       value: book.language,
-    },
-    {
-      label: t("book.status"),
-      value: t(`book.${book.status}`),
     },
   ];
 
@@ -71,20 +72,13 @@ const BookDetails: React.FC = () => {
             return (
               <div
                 key={index}
-                className="bg-primary-100 rounded-sm px-2 py-1 text-10"
+                className={`bg-primary-100 rounded-sm px-2 py-1 text-10 ${
+                  isStatusElement &&
+                  getStatusBadgeClass(book.status as BookStatus)
+                }`}
               >
                 <span className="font-semibold">{el.label}: </span>
-                <span
-                  className={`font-semibold ${
-                    isStatusElement
-                      ? el.value === t(`book.${BookStatus.AVAILABLE}`)
-                        ? "text-green-600"
-                        : "text-red-700"
-                      : ""
-                  }`}
-                >
-                  {el.value}
-                </span>
+                <span className="font-semibold">{el.value}</span>
               </div>
             );
           })}

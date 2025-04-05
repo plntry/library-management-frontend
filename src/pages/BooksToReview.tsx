@@ -1,11 +1,10 @@
 import { useLoaderData } from "react-router";
-import BooksList from "../components/BooksList";
-import { BookPage } from "../models/Book";
+import ReservationsList from "../components/ReservationsList";
 
 const BooksToReview: React.FC = () => {
-  const books = useLoaderData();
+  const reservations = useLoaderData();
 
-  return <BooksList data={books} mode={BookPage.BooksToReview} />;
+  return <ReservationsList data={reservations} />;
 };
 
 export default BooksToReview;

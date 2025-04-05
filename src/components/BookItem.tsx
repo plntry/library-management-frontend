@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Book, BookPage, BookStatus } from "../models/Book";
+import { Book, BookPage } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
 import { UserRoles } from "../models/User";
 import BookActionsComp from "./BookActions";
 import { useAuthStore } from "../store/useAuthStore";
 import bookPlaceholderImg from "../assets/book-placeholder.avif";
+import { getStatusBadgeClass } from "../utils/styleUtils";
 
 const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
   const { t } = useTranslation();
@@ -16,11 +17,7 @@ const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
       <img src={bookPlaceholderImg} alt={book.title} className="card__image" />
       <div className="card__header">
         <h2 className="card__title">{book.title}</h2>
-        <h2
-          className={`badge ${
-            book.status === BookStatus.AVAILABLE ? "badge--green" : "badge--red"
-          }`}
-        >
+        <h2 className={`badge ${getStatusBadgeClass(book.status)}`}>
           {t(`book.${book.status}`)}
         </h2>
       </div>

@@ -1,23 +1,17 @@
-// import { dummyBooks } from "../api/dummyBooks";
-// import { booksApi } from "../api/books";
-import { reservationsApi } from "../api/resarvations";
-import { Book, BookStatus } from "../models/Book";
+import { reservationsApi } from "../api/reservations";
+import { ReservationBook, ReservationStatus } from "../models/Book";
 
 export async function booksToReviewLoader() {
-  const response = await reservationsApi.getAllPending();
-  // const response = await reservationsApi.getAllByType("PENDING");
+  const response = await reservationsApi.getAllByStatus(
+    ReservationStatus.REVIEW
+  );
 
   if (response.status === 200) {
-    return response.data
-      .filter((el: Book) => el.status !== BookStatus.REVIEW)
-      .map((el: Book) => ({
-        ...el,
-        // id: el.reservation_id,
-        key: el.id,
-      }));
+    return response.data.map((el: ReservationBook) => ({
+      ...el,
+      key: el.reservation_id,
+    }));
   }
 
   return [];
-
-  // return dummyBooks;
 }

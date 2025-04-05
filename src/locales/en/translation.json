@@ -55,10 +55,11 @@
     "publicationYear": "Publication Year",
     "genre": "Genre",
     "language": "Language",
-    "CHECKED_OUT": "Checked Out",
+    "CHECKED_OUT": "Delivered",
     "AVAILABLE": "Available",
     "RESERVED": "Reserved",
-    "PENDING": "Pending",
+    "PENDING": "Reserved",
+    "REVIEW": "Reserved",
     "status": "Status"
   },
   "header": {
@@ -188,5 +189,17 @@
       "newWorld": "Discover a new world with every page",
       "readDreamLive": "Read - Dream - Live"
     }
+  },
+  "reservationsPage": {
+    "title": "Reservations",
+    "searchPlaceholder": "Search reservations...",
+    "noReservationsMessage": "No reservations found"
+  },
+  "reservation": {
+    "PENDING": "Reserved",
+    "CONFIRMED": "Confirmed",
+    "CANCELED": "Cancelled",
+    "reservedAt": "Reserved at",
+    "userEmail": "User email"
   }
 }

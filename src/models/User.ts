@@ -1,3 +1,5 @@
+export const GUEST_ROLE = "guest" as const;
+
 export enum UserRoles {
   READER = "user",
   LIBRARIAN = "librarian",

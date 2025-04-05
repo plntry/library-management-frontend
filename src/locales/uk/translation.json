@@ -100,7 +100,7 @@
     "addNewBook": "Додати книгу",
     "updateBook": "Редагувати книгу",
     "approve": "Підтвердити",
-    "decline": "Відхилити",
+    "decline": "Скасувати",
     "send": "Відправити",
     "reset": "Скинути",
     "orGoBack": "або повернутись"
@@ -212,5 +212,17 @@
       "newWorld": "Відкрий новий світ з кожною сторінкою",
       "readDreamLive": "Читай - мрій - живи"
     }
+  },
+  "reservationsPage": {
+    "title": "Запити на видачу",
+    "searchPlaceholder": "Пошук запитів...",
+    "noReservationsMessage": "Запитів на видачу не знайдено"
+  },
+  "reservation": {
+    "PENDING": "Зарезервовано",
+    "CONFIRMED": "На руках",
+    "CANCELED": "Відхилено",
+    "reservedAt": "Зарезервовано",
+    "userEmail": "Користувач"
   }
 }
