@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useRouteLoaderData } from "react-router";
 import { Book, BookActionConfig, BookPage, BookStatus } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
@@ -8,6 +8,8 @@ import bookDetailsBg from "../assets/details-books-bg.jpg";
 import { useTranslation } from "react-i18next";
 import BookActionsComp from "../components/BookActions";
 import { useAuthStore } from "../store/useAuthStore";
+import { getStatusBadgeClass } from "../utils/styleUtils";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 interface BookDetail {
   label: string;
@@ -19,6 +21,16 @@ const BookDetails: React.FC = () => {
   const navigate = useNavigate();
   const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
   const book = useRouteLoaderData("bookDetails") as Book | undefined;
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => Promise<void>;
+  }>({
+    isOpen: false,
+    message: "",
+    onConfirm: async () => {},
+  });
+
   if (!book) {
     navigate(PATHS.HOME.link);
     return null;
@@ -28,6 +40,10 @@ const BookDetails: React.FC = () => {
     userAvailableBookActionsByPage[BookPage.BookDetails][role];
 
   const bookDetails: BookDetail[] = [
+    {
+      label: t("book.status"),
+      value: t(`book.${book.status}`),
+    },
     {
       label: t("book.author"),
       value: book.author,
@@ -43,10 +59,6 @@ const BookDetails: React.FC = () => {
     {
       label: t("book.language"),
       value: book.language,
-    },
-    {
-      label: t("book.status"),
-      value: t(`book.${book.status}`),
     },
   ];
 
@@ -71,26 +83,34 @@ const BookDetails: React.FC = () => {
             return (
               <div
                 key={index}
-                className="bg-primary-100 rounded-sm px-2 py-1 text-10"
+                className={`bg-primary-100 rounded-sm px-2 py-1 text-10 ${
+                  isStatusElement &&
+                  getStatusBadgeClass(book.status as BookStatus)
+                }`}
               >
                 <span className="font-semibold">{el.label}: </span>
-                <span
-                  className={`font-semibold ${
-                    isStatusElement
-                      ? el.value === t(`book.${BookStatus.AVAILABLE}`)
-                        ? "text-green-600"
-                        : "text-red-700"
-                      : ""
-                  }`}
-                >
-                  {el.value}
-                </span>
+                <span className="font-semibold">{el.value}</span>
               </div>
             );
           })}
         </div>
-        <BookActionsComp book={book} actions={availableActions} />
+        <BookActionsComp
+          book={book}
+          actions={availableActions}
+          setModalConfig={setModalConfig}
+        />
       </div>
+      <ConfirmationModal
+        isOpen={modalConfig.isOpen}
+        message={modalConfig.message}
+        onConfirm={async () => {
+          await modalConfig.onConfirm();
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+        onCancel={() => {
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+      />
     </div>
   );
 };

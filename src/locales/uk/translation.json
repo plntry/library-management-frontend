@@ -1,5 +1,9 @@
 {
   "appName": "Читайлик",
+  "languageSelectors": {
+    "ua": "УКР",
+    "en": "АНГЛ"
+  },
   "auth": {
     "register": "Зареєструватися",
     "login": "Увійти",
@@ -62,6 +66,8 @@
     "allBooks": "Усі Книги",
     "reservedBooks": "Мої Книги",
     "booksToReview": "Запити",
+    "approvedReservations": "Видані Книги",
+    "users": "Читачі",
     "login": "Увійти",
     "logout": "Вийти"
   },
@@ -70,7 +76,7 @@
     "description": "Вибачте, ми не можемо знайти цю сторінку. Можливо, ви знайдете щось цікаве на головній сторінці?",
     "navigationText": "Головна сторінка"
   },
-  "allBooksPage": {
+  "allBooks": {
     "title": "Що ти читатимеш сьогодні?",
     "searchPlaceholder": "Пошук книг...",
     "noBooksMessage": "За вашим запитом не знайдено жодної книги",
@@ -78,13 +84,10 @@
     "editButton": "Редагувати",
     "reserveButton": "Забронювати"
   },
-  "myBooksPage": {
+  "myBooks": {
     "title": "Мої книги"
   },
-  "booksToReviewPage": {
-    "title": "Запити на бронювання"
-  },
-  "bookDetailsPage": {
+  "bookDetails": {
     "title": ""
   },
   "additionalButtons": {
@@ -96,10 +99,14 @@
     "addNewBook": "Додати книгу",
     "updateBook": "Редагувати книгу",
     "approve": "Підтвердити",
-    "decline": "Відхилити",
+    "decline": "Скасувати",
     "send": "Відправити",
     "reset": "Скинути",
-    "orGoBack": "або повернутись"
+    "orGoBack": "або повернутись",
+    "delete": "Видалити",
+    "more": "Більше",
+    "block": "Заблокувати",
+    "unblock": "Розблокувати"
   },
   "notifications": {
     "default": {
@@ -168,6 +175,16 @@
           "message": "Помилка при редагуванні книги",
           "description": "Виникла помилка при спробі відредагувати книгу, будь ласка, спробуйте пізніше"
         }
+      },
+      "delete": {
+        "success": {
+          "message": "Книгу видалено!",
+          "description": "Книга була видалена з бібліотеки"
+        },
+        "error": {
+          "message": "Помилка при видаленні книги",
+          "description": "Виникла помилка при спробі видалити книгу, будь ласка, спробуйте пізніше"
+        }
       }
     },
     "reservation": {
@@ -191,7 +208,7 @@
       },
       "decline": {
         "success": {
-          "message": "Бронювання відхилено",
+          "message": "Бронювання скасовано",
           "description": "Книга повернута до доступних"
         },
         "error": {
@@ -199,6 +216,53 @@
           "description": "Виникла помилка при спробі відхилити бронювання, будь ласка, спробуйте пізніше"
         }
       }
+    }
+  },
+  "homepage": {
+    "title": "Людина з гарною книгою в руках ніколи не може бути самотньою",
+    "slides": {
+      "findBook": "Знайди свою улюблену книгу на сторінці \"Усі Книги\"",
+      "newWorld": "Відкрий новий світ з кожною сторінкою",
+      "readDreamLive": "Читай - мрій - живи"
+    }
+  },
+  "booksToReview": {
+    "title": "Запити на видачу",
+    "searchPlaceholder": "Пошук запитів...",
+    "noReservationsMessage": "Запитів на видачу не знайдено"
+  },
+  "approvedReservations": {
+    "title": "Видані книги",
+    "searchPlaceholder": "Пошук виданих книг...",
+    "noReservationsMessage": "Виданих книг не знайдено"
+  },
+  "reservation": {
+    "PENDING": "Зарезервовано",
+    "CONFIRMED": "На руках",
+    "CANCELED": "Відхилено",
+    "reservedAt": "Зарезервовано",
+    "userEmail": "Користувач"
+  },
+  "confirmations": {
+    "deleteBook": "Ви впевнені, що хочете видалити цю книгу?",
+    "deleteUser": "Ви впевнені, що хочете видалити цього читача?",
+    "blockUser": "Ви впевнені, що хочете заблокувати цього читача?",
+    "unblockUser": "Ви впевнені, що хочете розблокувати цього читача?"
+  },
+  "users": {
+    "title": "Читачі",
+    "searchPlaceholder": "Пошук читачів...",
+    "noUsersMessage": "Читачів не знайдено"
+  },
+  "user": {
+    "roles": {
+      "user": "Читач",
+      "librarian": "Бібліотекар",
+      "admin": "Адміністратор"
+    },
+    "status": {
+      "active": "Активний",
+      "blocked": "Заблокований"
     }
   }
 }

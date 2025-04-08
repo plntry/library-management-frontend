@@ -4,6 +4,7 @@ import { UserRoles } from "../models/User";
 import { availableHeaderTabs } from "../constants/availableHeaderTabs";
 import { MenuItem } from "../constants/availableHeaderTabs";
 import HeaderItem from "./HeaderItem";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { PATHS } from "../routes/paths";
@@ -30,6 +31,10 @@ const Header: React.FC = () => {
     }
   };
 
+  // Split menu items into regular and end-aligned items
+  const regularItems = menuItems.filter((item) => !item.pushToTheEnd);
+  const endItems = menuItems.filter((item) => item.pushToTheEnd);
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 flex items-center gap-5 w-full min-h-15 px-5 bg-white shadow-xs z-50">
@@ -37,13 +42,23 @@ const Header: React.FC = () => {
           <img src={logo} alt="Logo" className="max-w-10" />
         </Link>
         <div className="hidden md:flex w-full">
-          {menuItems.map((item) => (
+          {regularItems.map((item) => (
             <HeaderItem
               key={item.key}
               item={item}
               isSelected={selectedKey === item.key}
             />
           ))}
+          <div className="ml-auto flex items-center">
+            <LanguageSwitcher />
+            {endItems.map((item) => (
+              <HeaderItem
+                key={item.key}
+                item={item}
+                isSelected={selectedKey === item.key}
+              />
+            ))}
+          </div>
         </div>
         <div className="md:hidden ml-auto">
           <button onClick={toggleMobileMenu} aria-label="Toggle menu">
@@ -59,7 +74,19 @@ const Header: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden fixed top-[4rem] left-0 right-0 bg-white shadow-xs z-40">
           <div className="flex flex-col items-center">
-            {menuItems.map((item) => (
+            {regularItems.map((item) => (
+              <HeaderItem
+                key={item.key}
+                item={item}
+                isSelected={selectedKey === item.key}
+                mobile={true}
+                onClick={handleMobileItemClick}
+              />
+            ))}
+            <div className="py-2">
+              <LanguageSwitcher />
+            </div>
+            {endItems.map((item) => (
               <HeaderItem
                 key={item.key}
                 item={item}

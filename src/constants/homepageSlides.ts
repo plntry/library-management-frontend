@@ -3,22 +3,23 @@ import book1 from "../assets/books-carousel/book1.jpg";
 import book2 from "../assets/books-carousel/book2.jpg";
 import book3 from "../assets/books-carousel/book3.jpeg";
 import { PATHS } from "../routes/paths";
+import i18next from "i18next";
 
 export const getHomepageSlides = (
   navigate: (path: string) => void
 ): CarouselSlideData[] => [
   {
-    title: 'Знайди свою улюблену книгу на сторінці "Усі Книги"',
+    title: i18next.t("homepage.slides.findBook"),
     imgSrc: book1,
     onClick: () => navigate(PATHS.BOOKS.link),
   },
   {
-    title: "Відкрий новий світ з кожною сторінкою",
+    title: i18next.t("homepage.slides.newWorld"),
     imgSrc: book2,
     onClick: () => navigate(PATHS.BOOKS.link),
   },
   {
-    title: "Читай - мрій - живи",
+    title: i18next.t("homepage.slides.readDreamLive"),
     imgSrc: book3,
     onClick: () => navigate(PATHS.BOOKS.link),
   },

@@ -1,3 +1,5 @@
+export const GUEST_ROLE = "guest" as const;
+
 export enum UserRoles {
   READER = "user",
   LIBRARIAN = "librarian",
@@ -5,12 +7,19 @@ export enum UserRoles {
 }
 
 export interface UserRegistration {
+  id?: number;
   email: string;
   username: string;
   password: string;
   first_name: string;
   last_name: string;
   role: UserRoles.READER;
+  is_blocked?: boolean;
+}
+
+export enum UserStatus {
+  ACTIVE = "active",
+  BLOCKED = "blocked",
 }
 
 export interface UserLogin {

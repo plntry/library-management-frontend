@@ -33,13 +33,14 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await authApi.getUser();
           set({ user: data, isAuthenticated: true });
         } catch (error: unknown) {
-          if (axios.isAxiosError(error) && error.response?.status === 401) {
+          if (axios.isAxiosError(error)) {
             try {
               await authApi.refreshToken();
               const { data } = await authApi.getUser();
               set({ user: data, isAuthenticated: true });
             } catch {
               set({ user: null, isAuthenticated: false });
+              throw error;
             }
           } else {
             set({ user: null, isAuthenticated: false });

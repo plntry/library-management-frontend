@@ -104,8 +104,6 @@ const onSubmit = async (formData: BookCreateUpdateData) => {
   };
 
   if (mode === "update" && book?.id) {
-    console.log(mode, book?.id);
-
     await handleAxiosRequest(
       async () => await booksApi.update(book.id.toString(), finalData),
       notify,

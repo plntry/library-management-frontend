@@ -1,9 +1,9 @@
 import { reservationsApi } from "../api/reservations";
 import { ReservationBook, ReservationStatus } from "../models/Book";
 
-export async function booksToReviewLoader() {
+export async function approvedReservationsLoader() {
   const response = await reservationsApi.getAllByStatus(
-    ReservationStatus.REVIEW
+    ReservationStatus.CONFIRMED
   );
 
   if (response.status === 200) {

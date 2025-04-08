@@ -6,6 +6,8 @@ import { UserRoles } from "../models/User";
 import { Link } from "react-router";
 import { PATHS } from "../routes/paths";
 import { useAuthStore } from "../store/useAuthStore";
+import ConfirmationModal from "./ConfirmationModal";
+import { SearchBar, CardsContainer } from "./ui";
 
 const BooksList: React.FC<{
   data: Book[];
@@ -14,6 +16,15 @@ const BooksList: React.FC<{
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => Promise<void>;
+  }>({
+    isOpen: false,
+    message: "",
+    onConfirm: async () => {},
+  });
 
   const filteredBooks = useMemo(() => {
     const lowerQuery = searchQuery.toLowerCase();
@@ -27,35 +38,48 @@ const BooksList: React.FC<{
     });
   }, [data, searchQuery]);
 
+  const additionalContent = role === UserRoles.LIBRARIAN &&
+    mode === BookPage.AllBooks && (
+      <Link to={PATHS.NEW_BOOK.link} className="block w-full md:w-auto">
+        <button className="button button--primary w-full">
+          {t("additionalButtons.addNewBook")}
+        </button>
+      </Link>
+    );
+
   return (
     <div className="p-4 flex flex-col gap-5">
-      <div className="self-center page-title">{t(`${mode}Page.title`)}</div>
-      <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
-        <input
-          type="text"
-          placeholder={t("allBooksPage.searchPlaceholder")}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search"
-        />
-        {role === UserRoles.LIBRARIAN && mode === BookPage.AllBooks && (
-          <Link to={PATHS.NEW_BOOK.link} className="block w-full md:w-auto">
-            <button className="button button--primary w-full">
-              {t("additionalButtons.addNewBook")}
-            </button>
-          </Link>
+      <div className="self-center page-title">{t(`${mode}.title`)}</div>
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        placeholderKey="allBooks.searchPlaceholder"
+        additionalContent={additionalContent}
+      />
+      <CardsContainer
+        items={filteredBooks}
+        renderItem={(book) => (
+          <BookItem
+            key={book.id}
+            book={book}
+            mode={mode}
+            setModalConfig={setModalConfig}
+          />
         )}
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredBooks.map((book) => (
-          <BookItem key={book.id} book={book} mode={mode} />
-        ))}
-        {filteredBooks.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">
-            {t("allBooksPage.noBooksMessage")}
-          </p>
-        )}
-      </div>
+        emptyStateKey="noBooksMessage"
+        mode={mode}
+      />
+      <ConfirmationModal
+        isOpen={modalConfig.isOpen}
+        message={modalConfig.message}
+        onConfirm={async () => {
+          await modalConfig.onConfirm();
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+        onCancel={() => {
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+      />
     </div>
   );
 };

@@ -6,17 +6,21 @@ import {
   UserAvailableBookActionsByPage,
   Book,
   BookStatus,
+  ReservationStatus,
 } from "../models/Book";
 import { UserRoles } from "../models/User";
 import { PATHS } from "../routes/paths";
 import { getUserAvailableBookActionsByPage } from "../utils/bookUtils";
-import { reservationsApi } from "../api/resarvations";
+import { reservationsApi } from "../api/reservations";
 import { useAuthStore } from "../store/useAuthStore";
 import { Notification } from "../contexts/NotificationContext";
+import { booksApi } from "../api/books";
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 
 export const bookActions: BookActions = {
   more: {
-    title: i18next.t("allBooksPage.moreButton"),
+    title: "",
+    icon: MoreOutlined,
     link: PATHS.BOOK.link,
     dynamicParam: {
       stringToReplace: ":bookId",
@@ -41,18 +45,20 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: true,
       [BookPage.BooksToReview]: false,
+      [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
     },
     classes: "button button--secondary",
   },
   reserve: {
-    title: i18next.t("allBooksPage.reserveButton"),
+    title: i18next.t("allBooks.reserveButton"),
     link: "",
     visible: {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: false,
-      [BookPage.BookDetails]: true,
+      [BookPage.ApprovedReservations]: false,
+      [BookPage.BookDetails]: false,
     },
     disabledIf: (book: Book) => book.status !== BookStatus.AVAILABLE,
     classes: "button button--primary",
@@ -85,7 +91,8 @@ export const bookActions: BookActions = {
     },
   },
   edit: {
-    title: i18next.t("allBooksPage.editButton"),
+    title: "",
+    icon: EditOutlined,
     link: `${PATHS.BOOK.link}/${PATHS.EDIT_BOOK.link}`,
     dynamicParam: {
       stringToReplace: ":bookId",
@@ -110,7 +117,8 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: true,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: false,
-      [BookPage.BookDetails]: true,
+      [BookPage.ApprovedReservations]: false,
+      [BookPage.BookDetails]: false,
     },
     classes: "button",
   },
@@ -121,24 +129,29 @@ export const bookActions: BookActions = {
       [BookPage.AllBooks]: false,
       [BookPage.MyBooks]: false,
       [BookPage.BooksToReview]: true,
-      [BookPage.BookDetails]: true,
+      [BookPage.ApprovedReservations]: false,
+      [BookPage.BookDetails]: false,
     },
     classes: "button button--primary",
-    disabledIf: (book: Book) => book.status === BookStatus.RESERVED,
+    disabledIf: (book: Book) =>
+      book.status === BookStatus.RESERVED ||
+      book.status === BookStatus.AVAILABLE,
     onClick: async (
       dataToReplace?: number,
       _navigate?: (to: string) => void,
       book?: Book,
       addNotification?: (notification: Omit<Notification, "id">) => void
     ) => {
-      console.log({ dataToReplace });
-      
       if (!dataToReplace || !addNotification || !book) return;
       try {
+        const reservationId = book.reservation_id;
+        if (!reservationId) return;
+
         await useAuthStore
           .getState()
-          .withTokenRefresh(() => reservationsApi.confirm(dataToReplace));
+          .withTokenRefresh(() => reservationsApi.confirm(reservationId));
         book.status = BookStatus.RESERVED;
+        book.reservation_status = ReservationStatus.CONFIRMED;
         addNotification({
           type: "success",
           message: i18next.t(
@@ -164,12 +177,16 @@ export const bookActions: BookActions = {
     link: "",
     visible: {
       [BookPage.AllBooks]: false,
-      [BookPage.MyBooks]: false,
+      [BookPage.MyBooks]: true,
       [BookPage.BooksToReview]: true,
-      [BookPage.BookDetails]: true,
+      [BookPage.ApprovedReservations]: true,
+      [BookPage.BookDetails]: false,
     },
     classes: "button button--red",
-    disabledIf: (book: Book) => book.status === BookStatus.AVAILABLE,
+    disabledIf: (book: Book) =>
+      book.status === BookStatus.AVAILABLE ||
+      (book.status === BookStatus.RESERVED &&
+        book.reservation_status === ReservationStatus.CONFIRMED),
     onClick: async (
       dataToReplace?: number,
       _navigate?: (to: string) => void,
@@ -178,9 +195,12 @@ export const bookActions: BookActions = {
     ) => {
       if (!dataToReplace || !addNotification || !book) return;
       try {
+        const reservationId = (book as Book).reservation_id;
+        if (!reservationId) return;
+
         await useAuthStore
           .getState()
-          .withTokenRefresh(() => reservationsApi.decline(dataToReplace));
+          .withTokenRefresh(() => reservationsApi.decline(reservationId));
         book.status = BookStatus.AVAILABLE;
         addNotification({
           type: "success",
@@ -202,12 +222,75 @@ export const bookActions: BookActions = {
       }
     },
   },
+  delete: {
+    title: "",
+    icon: DeleteOutlined,
+    link: "",
+    visible: {
+      [BookPage.AllBooks]: true,
+      [BookPage.MyBooks]: false,
+      [BookPage.BooksToReview]: false,
+      [BookPage.ApprovedReservations]: false,
+      [BookPage.BookDetails]: false,
+    },
+    classes: "button button--red",
+    onClick: async (
+      dataToReplace?: number,
+      _navigate?: (to: string) => void,
+      _book?: Book,
+      addNotification?: (notification: Omit<Notification, "id">) => void,
+      setModalConfig?: (config: {
+        isOpen: boolean;
+        message: string;
+        onConfirm: () => Promise<void>;
+      }) => void
+    ) => {
+      if (!dataToReplace || !addNotification || !setModalConfig) {
+        return;
+      }
+
+      setModalConfig({
+        isOpen: true,
+        message: i18next.t("confirmations.deleteBook"),
+        onConfirm: async () => {
+          try {
+            await useAuthStore
+              .getState()
+              .withTokenRefresh(() =>
+                booksApi.delete(dataToReplace.toString())
+              );
+            addNotification({
+              type: "success",
+              message: i18next.t("notifications.book.delete.success.message"),
+              description: i18next.t(
+                "notifications.book.delete.success.description"
+              ),
+            });
+            window.location.reload();
+          } catch {
+            addNotification({
+              type: "error",
+              message: i18next.t("notifications.book.delete.error.message"),
+              description: i18next.t(
+                "notifications.book.delete.error.description"
+              ),
+            });
+          }
+        },
+      });
+    },
+  },
 };
 
 export const userAvailableBookActions: UserAvailableBookActions = {
-  [UserRoles.READER]: [bookActions.reserve, bookActions.more],
+  [UserRoles.READER]: [
+    bookActions.reserve,
+    bookActions.declineReservation,
+    bookActions.more,
+  ],
   [UserRoles.LIBRARIAN]: [
     bookActions.edit,
+    bookActions.delete,
     bookActions.approveReservation,
     bookActions.declineReservation,
     bookActions.more,

@@ -277,8 +277,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   };
 
   return (
-    <div className="flex min-h-screen justify-center bg-base-bg">
-      <div className="w-full max-w-md h-full space-y-6 rounded-xl bg-white mx-5 my-5 sm:my-30 p-8 shadow-lg">
+    <div className="flex min-h-screen min-w-screen justify-center bg-base-bg">
+      <div className="w-full max-w-md h-full space-y-6 rounded-xl bg-white mx-5 my-5 p-8 shadow-lg">
         <div className="flex justify-center items-center">
           <img src={logo} alt="Logo" className="max-w-15" />
           <h1 className="text-center text-4xl font-semibold text-primary-500">
