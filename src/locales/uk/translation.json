@@ -67,6 +67,7 @@
     "reservedBooks": "Мої Книги",
     "booksToReview": "Запити",
     "approvedReservations": "Видані Книги",
+    "users": "Читачі",
     "login": "Увійти",
     "logout": "Вийти"
   },
@@ -75,7 +76,7 @@
     "description": "Вибачте, ми не можемо знайти цю сторінку. Можливо, ви знайдете щось цікаве на головній сторінці?",
     "navigationText": "Головна сторінка"
   },
-  "allBooksPage": {
+  "allBooks": {
     "title": "Що ти читатимеш сьогодні?",
     "searchPlaceholder": "Пошук книг...",
     "noBooksMessage": "За вашим запитом не знайдено жодної книги",
@@ -83,13 +84,10 @@
     "editButton": "Редагувати",
     "reserveButton": "Забронювати"
   },
-  "myBooksPage": {
+  "myBooks": {
     "title": "Мої книги"
   },
-  "booksToReviewPage": {
-    "title": "Запити на бронювання"
-  },
-  "bookDetailsPage": {
+  "bookDetails": {
     "title": ""
   },
   "additionalButtons": {
@@ -104,7 +102,11 @@
     "decline": "Скасувати",
     "send": "Відправити",
     "reset": "Скинути",
-    "orGoBack": "або повернутись"
+    "orGoBack": "або повернутись",
+    "delete": "Видалити",
+    "more": "Більше",
+    "block": "Заблокувати",
+    "unblock": "Розблокувати"
   },
   "notifications": {
     "default": {
@@ -173,6 +175,16 @@
           "message": "Помилка при редагуванні книги",
           "description": "Виникла помилка при спробі відредагувати книгу, будь ласка, спробуйте пізніше"
         }
+      },
+      "delete": {
+        "success": {
+          "message": "Книгу видалено!",
+          "description": "Книга була видалена з бібліотеки"
+        },
+        "error": {
+          "message": "Помилка при видаленні книги",
+          "description": "Виникла помилка при спробі видалити книгу, будь ласка, спробуйте пізніше"
+        }
       }
     },
     "reservation": {
@@ -220,7 +232,7 @@
     "noReservationsMessage": "Запитів на видачу не знайдено"
   },
   "approvedReservations": {
-    "title": "Видані Книги",
+    "title": "Видані книги",
     "searchPlaceholder": "Пошук виданих книг...",
     "noReservationsMessage": "Виданих книг не знайдено"
   },
@@ -230,5 +242,27 @@
     "CANCELED": "Відхилено",
     "reservedAt": "Зарезервовано",
     "userEmail": "Користувач"
+  },
+  "confirmations": {
+    "deleteBook": "Ви впевнені, що хочете видалити цю книгу?",
+    "deleteUser": "Ви впевнені, що хочете видалити цього читача?",
+    "blockUser": "Ви впевнені, що хочете заблокувати цього читача?",
+    "unblockUser": "Ви впевнені, що хочете розблокувати цього читача?"
+  },
+  "users": {
+    "title": "Читачі",
+    "searchPlaceholder": "Пошук читачів...",
+    "noUsersMessage": "Читачів не знайдено"
+  },
+  "user": {
+    "roles": {
+      "user": "Читач",
+      "librarian": "Бібліотекар",
+      "admin": "Адміністратор"
+    },
+    "status": {
+      "active": "Активний",
+      "blocked": "Заблокований"
+    }
   }
 }

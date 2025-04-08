@@ -110,3 +110,20 @@ body {
 .swiper-pagination-bullet-active {
   @apply bg-primary-100;
 }
+
+/* modal */
+.modal-overlay {
+  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-[1000];
+}
+
+.modal {
+  @apply bg-white p-5 rounded-lg min-w-[300px] max-w-[500px] shadow-lg;
+}
+
+.modal__message {
+  @apply text-lg text-center font-bold text-primary-500;
+}
+
+.modal__actions {
+  @apply flex justify-end gap-2.5 mt-5;
+}

@@ -7,7 +7,15 @@ import { useAuthStore } from "../store/useAuthStore";
 import bookPlaceholderImg from "../assets/book-placeholder.avif";
 import { getStatusBadgeClass } from "../utils/styleUtils";
 
-const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
+const BookItem: React.FC<{
+  book: Book;
+  mode: BookPage;
+  setModalConfig?: (config: {
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => Promise<void>;
+  }) => void;
+}> = ({ book, mode, setModalConfig }) => {
   const { t } = useTranslation();
   const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
   const availableActions = userAvailableBookActionsByPage[mode][role];
@@ -26,7 +34,11 @@ const BookItem: React.FC<{ book: Book; mode: BookPage }> = ({ book, mode }) => {
         <span className="card__author-name">{t("book.author")}:</span>{" "}
         {book.author}
       </p>
-      <BookActionsComp book={book} actions={availableActions} />
+      <BookActionsComp
+        book={book}
+        actions={availableActions}
+        setModalConfig={setModalConfig}
+      />
     </div>
   );
 };

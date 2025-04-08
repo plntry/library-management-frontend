@@ -1,5 +1,6 @@
 import { RegisterOptions } from "react-hook-form";
 import { Notification } from "../contexts/NotificationContext";
+import { IconBaseProps } from "@ant-design/icons/lib/components/Icon";
 
 export enum BookStatus {
   AVAILABLE = "AVAILABLE",
@@ -73,10 +74,16 @@ export interface BookActionConfig {
     dataToReplace?: number,
     navigate?: (to: string) => void,
     book?: Book,
-    addNotification?: (notification: Omit<Notification, "id">) => void
+    addNotification?: (notification: Omit<Notification, "id">) => void,
+    setModalConfig?: (config: {
+      isOpen: boolean;
+      message: string;
+      onConfirm: () => Promise<void>;
+    }) => void
   ) => void | Promise<void>;
   disabledIf?: keyof Book | ((book: Book) => boolean);
   classes?: string;
+  icon?: React.ComponentType<IconBaseProps>;
 }
 
 export type BookActions = Record<string, BookActionConfig>;

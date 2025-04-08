@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { ReservationBook, ReservationPage } from "../models/Book";
 import { useTranslation } from "react-i18next";
 import ReservationItem from "./ReservationItem";
+import { SearchBar, CardsContainer } from "./ui";
 
 const ReservationsList: React.FC<{
   data: ReservationBook[];
@@ -26,29 +27,23 @@ const ReservationsList: React.FC<{
   return (
     <div className="p-4 flex flex-col gap-5">
       <div className="self-center page-title">{t(`${mode}.title`)}</div>
-      <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
-        <input
-          type="text"
-          placeholder={t(`${mode}.searchPlaceholder`)}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search"
-        />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredReservations.map((reservation) => (
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        placeholderKey={`${mode}.searchPlaceholder`}
+      />
+      <CardsContainer
+        items={filteredReservations}
+        renderItem={(reservation) => (
           <ReservationItem
             key={`${reservation.book_id}-${reservation.reservation_id}`}
             reservation={reservation}
             mode={mode}
           />
-        ))}
-        {filteredReservations.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">
-            {t(`${mode}.noReservationsMessage`)}
-          </p>
         )}
-      </div>
+        emptyStateKey="noReservationsMessage"
+        mode={mode}
+      />
     </div>
   );
 };

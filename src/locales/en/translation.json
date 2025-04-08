@@ -68,6 +68,7 @@
     "reservedBooks": "My Books",
     "booksToReview": "Requests",
     "approvedReservations": "Approved Books",
+    "users": "Users",
     "login": "Login",
     "logout": "Logout"
   },
@@ -76,7 +77,7 @@
     "description": "Sorry, we couldn't find this page. Perhaps you can find something interesting on the homepage?",
     "navigationText": "Home Page"
   },
-  "allBooksPage": {
+  "allBooks": {
     "title": "What will you read today?",
     "searchPlaceholder": "Search for books...",
     "noBooksMessage": "No books found matching your query",
@@ -84,13 +85,10 @@
     "editButton": "Edit",
     "reserveButton": "Reserve"
   },
-  "myBooksPage": {
+  "myBooks": {
     "title": "My Books"
   },
-  "booksToReviewPage": {
-    "title": "Reservation Requests"
-  },
-  "bookDetailsPage": {
+  "bookDetails": {
     "title": ""
   },
   "additionalButtons": {
@@ -105,7 +103,10 @@
     "decline": "Decline",
     "send": "Send",
     "reset": "Reset",
-    "orGoBack": "or go back"
+    "orGoBack": "or go back",
+    "delete": "Delete",
+    "block": "Block",
+    "unblock": "Unblock"
   },
   "notifications": {
     "default": {
@@ -174,6 +175,16 @@
           "message": "Error editing book",
           "description": "An error occurred editing the book. Please, try again later"
         }
+      },
+      "delete": {
+        "success": {
+          "message": "Book deleted successfully!",
+          "description": "The book has been removed from the library"
+        },
+        "error": {
+          "message": "Error deleting book",
+          "description": "An error occurred while deleting the book. Please try again later"
+        }
       }
     },
     "reservation": {
@@ -207,5 +218,27 @@
     "CANCELED": "Cancelled",
     "reservedAt": "Reserved at",
     "userEmail": "User email"
+  },
+  "confirmations": {
+    "deleteBook": "Are you sure you want to delete this book?",
+    "deleteUser": "Are you sure you want to delete this user?",
+    "blockUser": "Are you sure you want to block this user?",
+    "unblockUser": "Are you sure you want to unblock this user?"
+  },
+  "users": {
+    "title": "Users",
+    "searchPlaceholder": "Search users...",
+    "noUsersMessage": "No users found"
+  },
+  "user": {
+    "roles": {
+      "user": "Reader",
+      "librarian": "Librarian",
+      "admin": "Administrator"
+    },
+    "status": {
+      "active": "Active",
+      "blocked": "Blocked"
+    }
   }
 }

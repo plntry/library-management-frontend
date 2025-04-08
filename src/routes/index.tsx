@@ -22,6 +22,8 @@ import ResetPasswordRequest from "../components/ResetPasswordRequest";
 import ResetPassword from "../components/ResetPassword";
 import ApprovedReservations from "../pages/ApprovedReservations";
 import { approvedReservationsLoader } from "../loaders/approvedReservationsLoader";
+import UsersPage from "../pages/UsersPage";
+import { usersPageLoader } from "../loaders/usersPageLoader";
 
 export const routes = [
   {
@@ -111,6 +113,15 @@ export const routes = [
             ),
           },
         ],
+      },
+      {
+        path: PATHS.USERS.link,
+        element: (
+          <ProtectedRoute allowedRoles={[...PATHS.USERS.roles]}>
+            <UsersPage />
+          </ProtectedRoute>
+        ),
+        loader: usersPageLoader,
       },
       {
         path: PATHS.LOGOUT.link,

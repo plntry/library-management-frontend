@@ -259,8 +259,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
         navigate(PATHS.HOME.link);
       }
     } else {
-      console.log("here1");
-      
       if (mode === "login") {
         incrementLoginAttempts();
       }

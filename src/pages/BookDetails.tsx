@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useRouteLoaderData } from "react-router";
 import { Book, BookActionConfig, BookPage, BookStatus } from "../models/Book";
 import { userAvailableBookActionsByPage } from "../constants/availableBookActions";
@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import BookActionsComp from "../components/BookActions";
 import { useAuthStore } from "../store/useAuthStore";
 import { getStatusBadgeClass } from "../utils/styleUtils";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 interface BookDetail {
   label: string;
@@ -20,6 +21,16 @@ const BookDetails: React.FC = () => {
   const navigate = useNavigate();
   const role = useAuthStore((state) => state.user?.role) || UserRoles.READER;
   const book = useRouteLoaderData("bookDetails") as Book | undefined;
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => Promise<void>;
+  }>({
+    isOpen: false,
+    message: "",
+    onConfirm: async () => {},
+  });
+
   if (!book) {
     navigate(PATHS.HOME.link);
     return null;
@@ -83,8 +94,23 @@ const BookDetails: React.FC = () => {
             );
           })}
         </div>
-        <BookActionsComp book={book} actions={availableActions} />
+        <BookActionsComp
+          book={book}
+          actions={availableActions}
+          setModalConfig={setModalConfig}
+        />
       </div>
+      <ConfirmationModal
+        isOpen={modalConfig.isOpen}
+        message={modalConfig.message}
+        onConfirm={async () => {
+          await modalConfig.onConfirm();
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+        onCancel={() => {
+          setModalConfig((prev) => ({ ...prev, isOpen: false }));
+        }}
+      />
     </div>
   );
 };

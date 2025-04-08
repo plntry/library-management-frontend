@@ -11,8 +11,8 @@ export const booksApi = {
     await api.post(BOOKS_BASE_URL, body),
   update: async (bookId: string, body: BookCreateUpdateData) =>
     await api.put(`${BOOKS_BASE_URL}/${bookId}`, body),
+  delete: async (bookId: string) =>
+    await api.delete(`${BOOKS_BASE_URL}/${bookId}`),
   getReaderReservations: async () =>
     await api.get(`${BOOKS_BASE_URL}/my-reserved-books`),
-  // getReaderPendingReservations: async () =>
-  //   await api.get(`${BOOKS_BASE_URL}/PENDING-reservations`),
 };

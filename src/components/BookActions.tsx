@@ -1,11 +1,17 @@
 import { useNavigate } from "react-router";
 import { Book, BookActionConfig } from "../models/Book";
 import { useNotification } from "../hooks/useNotification";
+import React from "react";
 
 const BookActionsComp: React.FC<{
   book: Book;
   actions: BookActionConfig[];
-}> = ({ book, actions = [] }) => {
+  setModalConfig?: (config: {
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => Promise<void>;
+  }) => void;
+}> = ({ book, actions = [], setModalConfig }) => {
   const navigate = useNavigate();
   const addNotification = useNotification();
 
@@ -27,11 +33,17 @@ const BookActionsComp: React.FC<{
               ? action.classes
               : "bg-gray-200 text-gray-800 hover:bg-gray-300"
           }`}
-          onClick={() =>
-            action.onClick?.(book.id, navigate, book, addNotification)
-          }
+          onClick={() => {
+            action.onClick?.(
+              book.id,
+              navigate,
+              book,
+              addNotification,
+              setModalConfig
+            );
+          }}
         >
-          {action.title}
+          {action.icon ? React.createElement(action.icon) : action.title}
         </button>
       );
     });
