@@ -241,6 +241,7 @@
     "CONFIRMED": "На руках",
     "CANCELED": "Відхилено",
     "reservedAt": "Зарезервовано",
+    "approvedAt": "Видано",
     "userEmail": "Користувач"
   },
   "confirmations": {
