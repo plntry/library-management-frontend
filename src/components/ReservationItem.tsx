@@ -56,7 +56,14 @@ const ReservationItem: React.FC<{
         {reservation.user_email}
         <p>
           <span className="card__author-name">
-            {t("reservation.reservedAt")}:
+            {t(
+              `reservation.${
+                mode === ReservationPage.BooksToReview
+                  ? "reservedAt"
+                  : "approvedAt"
+              }`
+            )}
+            :
           </span>{" "}
           {new Date(reservation.RESERVED_at).toLocaleDateString()}
         </p>
