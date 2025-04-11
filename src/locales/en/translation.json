@@ -217,6 +217,7 @@
     "CONFIRMED": "Delivered",
     "CANCELED": "Cancelled",
     "reservedAt": "Reserved at",
+    "approvedAt": "Approved at",
     "userEmail": "User email"
   },
   "confirmations": {
