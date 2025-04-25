@@ -36,7 +36,9 @@ export interface ReservationBook {
   book_status: BookStatus | ReservationStatus;
   reservation_id: number;
   reservation_status: string;
-  RESERVED_at: string;
+  reserved_at: string;
+  return_date: string;
+  is_overdue: boolean;
   user_email: string;
   user_id: number;
 }
@@ -48,12 +50,14 @@ export enum BookPage {
   MyBooks = "myBooks",
   BooksToReview = "booksToReview",
   ApprovedReservations = "approvedReservations",
+  OverdueReservations = "overdueReservations",
   BookDetails = "bookDetails",
 }
 
 export enum ReservationPage {
   BooksToReview = BookPage.BooksToReview,
   ApprovedReservations = BookPage.ApprovedReservations,
+  OverdueReservations = BookPage.OverdueReservations,
 }
 
 export interface BookInputData

@@ -47,6 +47,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: false,
     },
     classes: "button button--secondary",
   },
@@ -59,6 +60,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: false,
     },
     disabledIf: (book: Book) => book.status !== BookStatus.AVAILABLE,
     classes: "button button--primary",
@@ -81,11 +83,19 @@ export const bookActions: BookActions = {
             "notifications.reservation.success.description"
           ),
         });
-      } catch {
+      } catch (error) {
+        const errorType: "error" | "reservationLimitError" =
+          (error as { response?: { status: number } })?.response?.status === 400
+            ? "reservationLimitError"
+            : "error";
         addNotification({
           type: "error",
-          message: i18next.t("notifications.reservation.error.message"),
-          description: i18next.t("notifications.reservation.error.description"),
+          message: i18next.t(
+            `notifications.reservation.approve.${errorType}.message`
+          ),
+          description: i18next.t(
+            `notifications.reservation.approve.${errorType}.description`
+          ),
         });
       }
     },
@@ -119,6 +129,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: false,
     },
     classes: "button",
   },
@@ -131,6 +142,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: true,
       [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: false,
     },
     classes: "button button--primary",
     disabledIf: (book: Book) =>
@@ -147,9 +159,15 @@ export const bookActions: BookActions = {
         const reservationId = book.reservation_id;
         if (!reservationId) return;
 
+        const returnDate = new Date();
+        returnDate.setDate(returnDate.getDate() + 10);
+        const formattedReturnDate = returnDate.toISOString().split("T")[0];
+
         await useAuthStore
           .getState()
-          .withTokenRefresh(() => reservationsApi.confirm(reservationId));
+          .withTokenRefresh(() =>
+            reservationsApi.confirm(reservationId, formattedReturnDate)
+          );
         book.status = BookStatus.RESERVED;
         book.reservation_status = ReservationStatus.CONFIRMED;
         addNotification({
@@ -181,6 +199,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: true,
       [BookPage.ApprovedReservations]: true,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: true,
     },
     classes: "button button--red",
     disabledIf: (book: Book) =>
@@ -232,6 +251,7 @@ export const bookActions: BookActions = {
       [BookPage.BooksToReview]: false,
       [BookPage.ApprovedReservations]: false,
       [BookPage.BookDetails]: false,
+      [BookPage.OverdueReservations]: false,
     },
     classes: "button button--red",
     onClick: async (

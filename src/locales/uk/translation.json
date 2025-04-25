@@ -2,7 +2,7 @@
   "appName": "Читайлик",
   "languageSelectors": {
     "ua": "УКР",
-    "en": "АНГЛ"
+    "en": "EN"
   },
   "auth": {
     "register": "Зареєструватися",
@@ -67,6 +67,7 @@
     "reservedBooks": "Мої Книги",
     "booksToReview": "Запити",
     "approvedReservations": "Видані Книги",
+    "overdueReservations": "Прострочені Книги",
     "users": "Читачі",
     "login": "Увійти",
     "logout": "Вийти"
@@ -85,7 +86,8 @@
     "reserveButton": "Забронювати"
   },
   "myBooks": {
-    "title": "Мої книги"
+    "title": "Мої книги",
+    "noBooksMessage": "За вашим запитом не знайдено жодної книги"
   },
   "bookDetails": {
     "title": ""
@@ -204,6 +206,10 @@
         "error": {
           "message": "Помилка",
           "description": "Виникла помилка при спробі підтвердити бронювання, будь ласка, спробуйте пізніше"
+        },
+        "reservationLimitError": {
+          "message": "Помилка",
+          "description": "Скасуйте резервацію або поверніть одну з книг, щоб створити нову резервацію (обмеження - 3 книги)"
         }
       },
       "decline": {
@@ -234,7 +240,12 @@
   "approvedReservations": {
     "title": "Видані книги",
     "searchPlaceholder": "Пошук виданих книг...",
-    "noReservationsMessage": "Виданих книг не знайдено"
+    "noReservationsMessage": "Книг не знайдено"
+  },
+  "overdueReservations": {
+    "title": "Прострочені книги",
+    "searchPlaceholder": "Пошук прострочених книг...",
+    "noReservationsMessage": "Книг не знайдено"
   },
   "reservation": {
     "PENDING": "Зарезервовано",
@@ -242,7 +253,8 @@
     "CANCELED": "Відхилено",
     "reservedAt": "Зарезервовано",
     "approvedAt": "Видано",
-    "userEmail": "Користувач"
+    "userEmail": "Користувач",
+    "returnDate": "Очікувана дата повернення"
   },
   "confirmations": {
     "deleteBook": "Ви впевнені, що хочете видалити цю книгу?",

@@ -8,7 +8,8 @@ const BooksLayout: React.FC = () => {
     location.pathname === PATHS.BOOKS.link ||
     location.pathname === PATHS.RESERVED_BOOKS.link ||
     location.pathname === PATHS.BOOKS_TO_REVIEW.link ||
-    location.pathname === PATHS.APPROVED_RESERVATIONS.link;
+    location.pathname === PATHS.APPROVED_RESERVATIONS.link ||
+    location.pathname === PATHS.OVERDUE_RESERVATIONS.link;
 
   return (
     <div className="h-full w-full flex flex-col gap-2">

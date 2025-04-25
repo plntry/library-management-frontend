@@ -1,7 +1,7 @@
 {
   "appName": "Chytailyk",
   "languageSelectors": {
-    "ua": "UA",
+    "ua": "УКР",
     "en": "EN"
   },
   "auth": {
@@ -68,6 +68,7 @@
     "reservedBooks": "My Books",
     "booksToReview": "Requests",
     "approvedReservations": "Approved Books",
+    "overdueReservations": "Overdue Books",
     "users": "Users",
     "login": "Login",
     "logout": "Logout"
@@ -86,7 +87,8 @@
     "reserveButton": "Reserve"
   },
   "myBooks": {
-    "title": "My Books"
+    "title": "My Books",
+    "noBooksMessage": "No books found matching your query"
   },
   "bookDetails": {
     "title": ""
@@ -191,6 +193,34 @@
       "success": {
         "message": "Book reserved successfully!",
         "description": "You can find it in the \"My Books\" section"
+      },
+      "error": {
+        "message": "Error",
+        "description": "An error occurred while reserving the book. Please, try again later"
+      },
+      "approve": {
+        "success": {
+          "message": "Reservation approved",
+          "description": "The book has been successfully delivered to the reader"
+        },
+        "error": {
+          "message": "Error",
+          "description": "An error occurred while confirming the reservation. Please, try again later"
+        },
+        "reservationLimitError": {
+          "message": "Error",
+          "description": "Cancel the reservation or return one of the books to create a new reservation (limit - 3 books)"
+        }
+      },
+      "decline": {
+        "success": {
+          "message": "Reservation declined",
+          "description": "The book has been returned to available"
+        },
+        "error": {
+          "message": "Помилка",
+          "description": "An error occurred while declining the reservation. Please, try again later"
+        }
       }
     }
   },
@@ -212,13 +242,19 @@
     "searchPlaceholder": "Search approved reservations...",
     "noReservationsMessage": "No approved reservations found"
   },
+  "overdueReservations": {
+    "title": "Overdue Books Reservations",
+    "searchPlaceholder": "Search overdue reservations...",
+    "noReservationsMessage": "No overdue reservations found"
+  },
   "reservation": {
     "PENDING": "Reserved",
     "CONFIRMED": "Delivered",
     "CANCELED": "Cancelled",
     "reservedAt": "Reserved at",
     "approvedAt": "Approved at",
-    "userEmail": "User email"
+    "userEmail": "User email",
+    "returnDate": "Expected return date"
   },
   "confirmations": {
     "deleteBook": "Are you sure you want to delete this book?",

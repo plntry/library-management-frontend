@@ -10,9 +10,14 @@ import { useNotification } from "../hooks/useNotification";
 interface UserItemProps {
   user: UserRegistration;
   onStatusChange: (userId: number, isBlocked: boolean) => void;
+  onDelete: (userId: number) => void;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user, onStatusChange }) => {
+const UserItem: React.FC<UserItemProps> = ({
+  user,
+  onStatusChange,
+  onDelete,
+}) => {
   const { t } = useTranslation();
   const currentUserRole = useAuthStore((state) => state.user?.role);
   const addNotification = useNotification();
@@ -42,6 +47,32 @@ const UserItem: React.FC<UserItemProps> = ({ user, onStatusChange }) => {
         try {
           await usersApi[user.is_blocked ? "unblock" : "block"](user.id!);
           onStatusChange(user.id!, !user.is_blocked);
+          addNotification({
+            type: "success",
+            message: t("notifications.default.success.message"),
+            description: t("notifications.default.success.description"),
+          });
+        } catch {
+          addNotification({
+            type: "error",
+            message: t("notifications.default.error.message"),
+            description: t("notifications.default.error.description"),
+          });
+        }
+      },
+    });
+  };
+
+  const handleUserDelete = () => {
+    if (!user.id) return;
+
+    setModalConfig({
+      isOpen: true,
+      message: t("confirmations.deleteUser"),
+      onConfirm: async () => {
+        try {
+          await usersApi.delete(user.id!);
+          onDelete(user.id!);
           addNotification({
             type: "success",
             message: t("notifications.default.success.message"),
@@ -90,6 +121,9 @@ const UserItem: React.FC<UserItemProps> = ({ user, onStatusChange }) => {
               onClick={handleUserBlockUnblock}
             >
               {t(`additionalButtons.${user.is_blocked ? "unblock" : "block"}`)}
+            </button>
+            <button className={`button button--red`} onClick={handleUserDelete}>
+              {t(`additionalButtons.delete`)}
             </button>
           </div>
         )}

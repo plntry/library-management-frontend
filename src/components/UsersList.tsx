@@ -31,6 +31,10 @@ const UsersList: React.FC<{
     );
   };
 
+  const handleUserDelete = (userId: number) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  };
+
   return (
     <div className="p-4 flex flex-col gap-5">
       <div className="self-center page-title">{t("users.title")}</div>
@@ -46,6 +50,7 @@ const UsersList: React.FC<{
             key={user.id}
             user={user}
             onStatusChange={handleUserStatusChange}
+            onDelete={handleUserDelete}
           />
         )}
         emptyStateKey="noUsersMessage"

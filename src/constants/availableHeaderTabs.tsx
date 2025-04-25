@@ -37,6 +37,10 @@ export const headerTabs: MenuItem[] = [
     label: i18next.t("header.approvedReservations"),
   },
   {
+    key: PATHS.OVERDUE_RESERVATIONS.link,
+    label: i18next.t("header.overdueReservations"),
+  },
+  {
     key: PATHS.USERS.link,
     label: i18next.t("header.users"),
   },

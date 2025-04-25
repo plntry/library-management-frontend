@@ -9,6 +9,10 @@ export const PATHS = {
     link: "/books/approved",
     roles: [UserRoles.LIBRARIAN],
   },
+  OVERDUE_RESERVATIONS: {
+    link: "/books/overdue",
+    roles: [UserRoles.LIBRARIAN],
+  },
   USERS: { link: "/users", roles: [UserRoles.ADMIN, UserRoles.LIBRARIAN] },
   BOOK: { link: "/books/:bookId", roles: Object.values(UserRoles) },
   EDIT_BOOK: { link: "edit", roles: [UserRoles.LIBRARIAN] },

@@ -24,6 +24,8 @@ import ApprovedReservations from "../pages/ApprovedReservations";
 import { approvedReservationsLoader } from "../loaders/approvedReservationsLoader";
 import UsersPage from "../pages/UsersPage";
 import { usersPageLoader } from "../loaders/usersPageLoader";
+import OverdueReservations from "../pages/OverdueReservations";
+import { overdueReservationsLoader } from "../loaders/overdueReservationsLoader";
 
 export const routes = [
   {
@@ -80,6 +82,17 @@ export const routes = [
               </ProtectedRoute>
             ),
             loader: approvedReservationsLoader,
+          },
+          {
+            path: PATHS.OVERDUE_RESERVATIONS.link,
+            element: (
+              <ProtectedRoute
+                allowedRoles={[...PATHS.OVERDUE_RESERVATIONS.roles]}
+              >
+                <OverdueReservations />
+              </ProtectedRoute>
+            ),
+            loader: overdueReservationsLoader,
           },
           {
             id: "bookDetails",

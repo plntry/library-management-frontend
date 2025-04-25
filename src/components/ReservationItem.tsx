@@ -65,8 +65,17 @@ const ReservationItem: React.FC<{
             )}
             :
           </span>{" "}
-          {new Date(reservation.RESERVED_at).toLocaleDateString()}
+          {new Date(reservation.reserved_at).toLocaleDateString()}
         </p>
+        {(mode === ReservationPage.ApprovedReservations ||
+          mode === ReservationPage.OverdueReservations) && (
+          <p>
+            <span className="card__author-name">
+              {t("reservation.returnDate")}:
+            </span>{" "}
+            {new Date(reservation.return_date).toLocaleDateString()}
+          </p>
+        )}
       </div>
       <BookActionsComp
         book={bookData}

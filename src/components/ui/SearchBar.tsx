@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 
 interface SearchBarProps {
   searchQuery: string;
-  onSearchChange: (value: string) => void;
+  onSearchChange: (query: string) => void;
   placeholderKey:
     | "allBooks.searchPlaceholder"
     | "booksToReview.searchPlaceholder"
     | "approvedReservations.searchPlaceholder"
-    | "users.searchPlaceholder";
+    | "users.searchPlaceholder"
+    | "overdueReservations.searchPlaceholder";
   additionalContent?: React.ReactNode;
 }
 
@@ -21,7 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <input
         type="text"
         placeholder={t(placeholderKey)}
