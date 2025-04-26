@@ -251,6 +251,7 @@
     "PENDING": "Зарезервовано",
     "CONFIRMED": "На руках",
     "CANCELED": "Відхилено",
+    "OVERDUE": "Прострочено",
     "reservedAt": "Зарезервовано",
     "approvedAt": "Видано",
     "userEmail": "Користувач",

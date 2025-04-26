@@ -251,6 +251,7 @@
     "PENDING": "Reserved",
     "CONFIRMED": "Delivered",
     "CANCELED": "Cancelled",
+    "OVERDUE": "Overdue",
     "reservedAt": "Reserved at",
     "approvedAt": "Approved at",
     "userEmail": "User email",

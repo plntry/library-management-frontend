@@ -32,6 +32,11 @@ const ReservationItem: React.FC<{
     reservation_id: reservation.reservation_id,
   };
 
+  const reservationStatus =
+    mode === ReservationPage.OverdueReservations
+      ? "OVERDUE"
+      : reservation.reservation_status;
+
   return (
     <div className="card">
       <img
@@ -41,14 +46,8 @@ const ReservationItem: React.FC<{
       />
       <div className="card__header">
         <h2 className="card__title">{reservation.title}</h2>
-        <h2
-          className={`badge ${getStatusBadgeClass(
-            reservation.reservation_status
-          )}`}
-        >
-          {t(
-            `reservation.${reservation.reservation_status as ReservationStatus}`
-          )}
+        <h2 className={`badge ${getStatusBadgeClass(reservationStatus)}`}>
+          {t(`reservation.${reservationStatus as ReservationStatus}`)}
         </h2>
       </div>
       <div className="card__general-data">

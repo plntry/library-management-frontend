@@ -13,7 +13,6 @@ export enum ReservationStatus {
   CONFIRMED = "CONFIRMED",
   CANCELLED = "CANCELED",
 }
-
 export interface Book {
   id: number;
   title: string;
